@@ -5,11 +5,12 @@ repos:
     - id: google-java-formatter-jdk11
       args: [--replace, --set-exit-if-changed]
     - id: pmd
-      args: [ -rulesets, pmd-ruleset.xml, -language, java, -cache, .pmd/cache, -dir, src/main/java, -f, textcolor ]
+      args: [ -rulesets, rulesets/pmd-ruleset.xml, -language, java, -cache, .pmd/cache, -dir, src/main/java, -f, textcolor ]
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v3.2.0
+  rev: v3.3.0
   hooks:
-    - id: check-ast
+    - id: no-commit-to-branch
+      args: ['--branch', 'master', '--branch', 'staging']
     - id: check-byte-order-marker
     - id: check-case-conflict
     - id: check-docstring-first
@@ -19,6 +20,3 @@ repos:
     - id: debug-statements
     - id: detect-aws-credentials
     - id: detect-private-key
-    - id: end-of-file-fixer
-    - id: trailing-whitespace
-    - id: mixed-line-ending
