@@ -29,6 +29,27 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<resources.directory>${basedir}/src/main/resources/dev</resources.directory>
+			</properties>
+		</profile>
+		<profile>
+			<id>staging</id>
+			<properties>
+				<resources.directory>${basedir}/src/main/resources/staging</resources.directory>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<resources.directory>${basedir}/src/main/resources/prod</resources.directory>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -36,6 +57,14 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>${resources.directory}</directory>
+			</resource>
+		</resources>
 	</build>
 
 </project>
