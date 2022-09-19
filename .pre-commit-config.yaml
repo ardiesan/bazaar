@@ -10,7 +10,7 @@ repos:
   rev: v3.3.0
   hooks:
     - id: no-commit-to-branch
-      args: ['--branch', 'master', '--branch', 'staging']
+      args: ['--branch', 'main', '--staging', 'develop', '--branch', 'staging']
     - id: check-byte-order-marker
     - id: check-case-conflict
     - id: check-docstring-first
