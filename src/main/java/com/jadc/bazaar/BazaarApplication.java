@@ -21,6 +21,6 @@ public class BazaarApplication implements CommandLineRunner {
 	private Environment env;
 
 	@Override public void run(String... args) throws Exception {
-		logger.info("{}", env.getProperty("env.name"));
+		logger.info("{}", env.getProperty("spring.profiles.active"));
 	}
 }
