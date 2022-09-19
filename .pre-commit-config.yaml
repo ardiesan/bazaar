@@ -1,0 +1,24 @@
+repos:
+- repo: https://github.com/ardiesan/pre-commit-jvm.git
+  rev: v0.6.0
+  hooks:
+    - id: google-java-formatter-jdk11
+      args: [--replace, --set-exit-if-changed]
+    - id: pmd
+      args: [ -rulesets, pmd-ruleset.xml, -language, java, -cache, .pmd/cache, -dir, src/main/java, -f, textcolor ]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.2.0
+  hooks:
+    - id: check-ast
+    - id: check-byte-order-marker
+    - id: check-case-conflict
+    - id: check-docstring-first
+    - id: check-executables-have-shebangs
+    - id: check-json
+    - id: check-yaml
+    - id: debug-statements
+    - id: detect-aws-credentials
+    - id: detect-private-key
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: mixed-line-ending
