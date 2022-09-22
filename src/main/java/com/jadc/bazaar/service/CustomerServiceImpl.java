@@ -49,10 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteById(int id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("No user id "+id+" found"));
-
 		customer.setDeleted(true);
-		customer.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-		customer.setDeletedAt(new Timestamp(System.currentTimeMillis()));
 
 		customerRepository.save(customer);
 	}
