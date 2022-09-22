@@ -113,7 +113,7 @@ a.caret {
 
 .content {
     margin-top: 1.3em;
-    padding: 1em;
+    padding: 1.25em;
     overflow: auto;
 }
 
@@ -216,7 +216,8 @@ a.caret {
     background: hsl(0deg 0% 85%);
     border-color: hsl(0deg 0% 85%);
     color: black;
-    padding: 9px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .form-control-label {
