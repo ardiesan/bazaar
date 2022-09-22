@@ -1,6 +1,6 @@
 package com.jadc.bazaar.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,12 +40,12 @@ public class Customer {
 
 	@Column(name = "created_at", updatable = false, length = 32)
 	@CreatedDate
-	private String createdAt;
+	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at", length = 32)
 	@LastModifiedDate
-	private String updatedAt;
+	private LocalDateTime updatedAt;
 
 	@Column(name = "deleted_at", length = 32)
-	private String deletedAt;
+	private LocalDateTime deletedAt;
 }
