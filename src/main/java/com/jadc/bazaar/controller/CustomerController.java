@@ -1,5 +1,6 @@
 package com.jadc.bazaar.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,21 @@ public class CustomerController {
 		customerService.deleteById(id);
 
 		return "redirect:list";
+	}
+
+	@PostMapping("/DeleteSelectedRows")
+	public String deleteRows(@RequestParam("customers") Integer[] customers) {
+		customerService.deleteSelectedRows(Arrays.asList(customers));
+
+		return "redirect:/admin/account/list";
+	}
+
+	@PostMapping("/Search")
+	public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+		List<Customer> customers = customerService.searchByCompanyNameLike(keyword);
+
+		model.addAttribute("customers", customers);
+
+		return "customers";
 	}
 }
