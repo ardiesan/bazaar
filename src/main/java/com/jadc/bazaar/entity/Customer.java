@@ -26,7 +26,7 @@ public class Customer {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "company_name")
+	@Column(name = "company_name", length = 128)
 	private String companyName;
 
 	@Column(name = "records_used")
@@ -35,17 +35,17 @@ public class Customer {
 	@Column(name = "contracted_records")
 	private int contractedRecords;
 
-	@Column(name = "created_at", updatable = false)
-	@CreatedDate
-	private Date createdAt;
-
-	@Column(name = "updated_at")
-	@LastModifiedDate
-	private Date updatedAt;
-
 	@Column(name = "is_deleted")
 	private boolean isDeleted;
 
-	@Column(name = "deleted_at")
-	private Date deletedAt;
+	@Column(name = "created_at", updatable = false, length = 32)
+	@CreatedDate
+	private String createdAt;
+
+	@Column(name = "updated_at", length = 32)
+	@LastModifiedDate
+	private String updatedAt;
+
+	@Column(name = "deleted_at", length = 32)
+	private String deletedAt;
 }
