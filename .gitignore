@@ -134,3 +134,7 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6627da (BZR-7 Add Maven,Eclipse and Update VSCode sections in gitignore)
