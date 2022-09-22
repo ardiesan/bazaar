@@ -47,24 +47,19 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void deleteById(int id) {
-		Optional<Customer> result = customerRepository.findById(id);
-		Customer customer;
-
-		if(result.isPresent()) {
-			customer = result.get();
-		}
-		else {
-			throw new UserNotFoundException("User with id: " + id + " not found.");
-		}
+		Customer customer = customerRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException("No user id "+id+" found"));
 
 		customer.setDeleted(true);
 		customer.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		customer.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+
+		customerRepository.save(customer);
 	}
 
 	@Override
 	public void deleteSelectedRows(List<Integer> userIds) {
-		customerRepository.deleteSelectedRows(userIds);
+		userIds.forEach(this::deleteById);
 	}
 
 	@Override
