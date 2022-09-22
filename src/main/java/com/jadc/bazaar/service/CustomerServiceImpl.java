@@ -13,7 +13,6 @@ import com.jadc.bazaar.repository.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
 	private final CustomerRepository customerRepository;
 
 	@Autowired
@@ -61,5 +60,15 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setDeleted(true);
 		customer.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		customer.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+	}
+
+	@Override
+	public void deleteSelectedRows(List<Integer> userIds) {
+		customerRepository.deleteSelectedRows(userIds);
+	}
+
+	@Override
+	public List<Customer> searchByCompanyNameLike(String keyword) {
+		return customerRepository.searchByCompanyNameLike(keyword);
 	}
 }
