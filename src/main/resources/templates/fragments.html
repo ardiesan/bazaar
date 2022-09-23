@@ -15,15 +15,17 @@
 
 <body>
     <div th:fragment="navbar_menu">
+        <div class="sidenav">
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/images/logo_s1.svg}" class="nav-logo"/>
+                FreePassCMS
+            </a>
+            <a href="" class="sidenav-item active"><i class="fas fa-book sidenav-icon"></i>Customers</a>
+            <a href="" class="sidenav-item"><i class="fas fa-bell sidenav-icon"></i>Notifications</a>
+        </div>
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a class="navbar-brand" th:href="@{/}">
-                    <img th:src="@{/images/logo_s1.svg}" class="navbar-logo"/>
-                    FreePassCMS
-                </a>
-            </div>
-            <div class="col float-right">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <div class="col">
+                <ul class="navbar-nav float-right mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/}">Logout <span class="sr-only">(current)</span></a>
                     </li>
