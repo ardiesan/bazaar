@@ -30,7 +30,7 @@ public class CustomerController {
 		this.customerService = service;
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String listAll(Model model) {
 		return listAllWithPagination(0, model);
 	}
@@ -129,13 +129,13 @@ public class CustomerController {
 	public String save(@ModelAttribute("customer") Customer customer) {
 		customerService.save(customer);
 
-		return "redirect:/admin/account/";
+		return "redirect:";
 	}
 
 	@PostMapping("/delete")
 	public String deleteRows(@RequestParam("customers") Integer[] customers) {
 		customerService.deleteSelectedRows(Arrays.asList(customers));
 
-		return "redirect:/admin/account/";
+		return "redirect:";
 	}
 }
