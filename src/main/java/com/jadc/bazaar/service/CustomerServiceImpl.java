@@ -1,6 +1,7 @@
 package com.jadc.bazaar.service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer findById(int id) {
-		Customer customer = customerRepository.findById(id)
+		return customerRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("No user id " + id + " found"));
-
-		return customer;
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void deleteSelectedRows(List<Integer> userIds) {
-		userIds.forEach(this::deleteById);
+	public void delete(Integer[] ids) {
+		Arrays.asList(ids).forEach(this::deleteById);
 	}
 }
