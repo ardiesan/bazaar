@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="container content bg-white search-container col-md-11 col-sm-12">
-            <form action="#" th:action="@{/admin/account/searchCustomers/0}" method="get">
+            <form action="#" th:action="@{/admin/account/search/0}" method="get">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-search" placeholder="Company Name" name="companyName">
                     <div class="input-group-append">
@@ -59,7 +59,7 @@
         </div>
         <div class="container pagination-content col-md-11 col-sm-12">
             <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
-            <ul class="pagination pagination-sm float-right">
+            <ul class="pagination pagination-sm page-numbers float-right">
                 <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
                     <a th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
                 </li>
