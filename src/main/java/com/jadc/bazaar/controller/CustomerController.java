@@ -35,8 +35,9 @@ public class CustomerController {
 		return listAllWithPagination(0, "", model);
 	}
 
-	@GetMapping("/{offset}")
-	public String listAllWithPagination(@PathVariable("offset") int offset, @RequestParam(required = false) String companyName, Model model) {
+	@GetMapping("/{pageNumber}")
+	public String listAllWithPagination(@PathVariable("pageNumber") int pageNumber,
+			@RequestParam(required = false) String companyName, Model model) {
 		Page<Customer> customers;
 		int pageSize = 0;
 		int totalPages = 0;
@@ -45,9 +46,9 @@ public class CustomerController {
 		int lastIndexOnPage = 0;
 
 		if (companyName == null) {
-			customers = customerService.findAll(offset);
+			customers = customerService.findAll(pageNumber);
 		} else {
-			customers = customerService.search(companyName, offset);
+			customers = customerService.search(companyName, pageNumber);
 			model.addAttribute("companyName", companyName);
 		}
 
@@ -55,11 +56,11 @@ public class CustomerController {
 			pageSize = customers.getSize();
 			totalPages = customers.getTotalPages();
 			totalEntries = customers.getTotalElements();
-			firstIndexOnPage = pageSize * offset + 1;
+			firstIndexOnPage = pageSize * pageNumber + 1;
 			if (totalEntries < pageSize) {
 				lastIndexOnPage = (int) totalEntries;
 			} else {
-				lastIndexOnPage = pageSize * offset + pageSize;
+				lastIndexOnPage = pageSize * pageNumber + pageSize;
 			}
 		}
 
@@ -69,7 +70,7 @@ public class CustomerController {
 		model.addAttribute("totalEntries", totalEntries);
 		model.addAttribute("firstIndexOnPage", firstIndexOnPage);
 		model.addAttribute("lastIndexOnPage", lastIndexOnPage);
-		model.addAttribute("offset", offset);
+		model.addAttribute("offset", pageNumber);
 
 		if (totalPages > 0) {
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -83,16 +84,14 @@ public class CustomerController {
 
 	@GetMapping("/add")
 	public String showAddCustomerForm(Model model) {
-		Customer customer = new Customer();
-		model.addAttribute("customer", customer);
+		model.addAttribute("customer", new Customer());
 
 		return "customer-form";
 	}
 
 	@GetMapping("/update")
 	public String showCustomerFormForUpdate(@RequestParam("customerId") int id, Model model) {
-		Customer customer = customerService.findById(id);
-		model.addAttribute("customer", customer);
+		model.addAttribute("customer", customerService.findById(id));
 
 		return "customer-form";
 	}
@@ -106,7 +105,7 @@ public class CustomerController {
 
 	@PostMapping("/delete")
 	public String deleteRows(@RequestParam("customers") Integer[] customers) {
-		customerService.deleteSelectedRows(Arrays.asList(customers));
+		customerService.delete(customers);
 
 		return "redirect:";
 	}
