@@ -154,6 +154,10 @@ td {
     margin-top: 1em;
 }
 
+.page-numbers {
+    width: 60%;
+}
+
 .text-white {
     color: #ffffff;
 }
