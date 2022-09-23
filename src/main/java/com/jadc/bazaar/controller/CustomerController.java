@@ -32,18 +32,23 @@ public class CustomerController {
 
 	@GetMapping("")
 	public String listAll(Model model) {
-		return listAllWithPagination(0, model);
+		return listAllWithPagination(0, "", model);
 	}
 
 	@GetMapping("/{offset}")
-	public String listAllWithPagination(@PathVariable("offset") int offset, Model model) {
+	public String listAllWithPagination(@PathVariable("offset") int offset, @RequestParam(required = false) String companyName, Model model) {
+		Page<Customer> customers = null;
 		int pageSize = 0;
 		int totalPages = 0;
 		long totalEntries = 0;
 		int firstIndexOnPage = 0;
 		int lastIndexOnPage = 0;
 
-		Page<Customer> customers = customerService.findAll(offset);
+		if (companyName.isEmpty() || companyName == null) {
+			customers = customerService.findAll(offset);
+		} else {
+			customers = customerService.search(companyName, offset);
+		}
 
 		if (customers != null) {
 			pageSize = customers.getSize();
@@ -60,44 +65,6 @@ public class CustomerController {
 		model.addAttribute("firstIndexOnPage", firstIndexOnPage);
 		model.addAttribute("lastIndexOnPage", lastIndexOnPage);
 		model.addAttribute("offset", offset);
-
-		if (totalPages > 0) {
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-					.boxed()
-					.collect(Collectors.toList());
-			model.addAttribute("pageNumbers", pageNumbers);
-		}
-
-		return "customers";
-	}
-
-	@GetMapping("/search/{offset}")
-	public String searchCustomer(@RequestParam("companyName") String companyName,
-			@PathVariable("offset") int offset, Model model) {
-		int pageSize = 0;
-		int totalPages = 0;
-		long totalEntries = 0;
-		int firstIndexOnPage = 0;
-		int lastIndexOnPage = 0;
-
-		Page<Customer> customers = customerService.search(companyName, offset);
-
-		if (customers != null) {
-			pageSize = customers.getSize();
-			totalPages = customers.getTotalPages();
-			totalEntries = customers.getTotalElements();
-			firstIndexOnPage = pageSize * offset + 1;
-			lastIndexOnPage = pageSize * offset + pageSize;
-		}
-
-		model.addAttribute("customers", customers);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("totalEntries", totalEntries);
-		model.addAttribute("firstIndexOnPage", firstIndexOnPage);
-		model.addAttribute("lastIndexOnPage", lastIndexOnPage);
-		model.addAttribute("offset", offset);
-		model.addAttribute("companyName", companyName);
 
 		if (totalPages > 0) {
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
