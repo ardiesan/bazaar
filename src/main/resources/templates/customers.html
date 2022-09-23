@@ -1,62 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-    <head th:replace="fragments :: html_head"></head>
-    <body>
-        <div th:replace="fragments :: navbar_menu"></div>
+<head th:replace="fragments :: html_head"></head>
+<body>
+<div th:replace="fragments :: navbar_menu"></div>
 
-        <!-- Content -->
-        <div class="justify-content-center bg-grey">
-            <div class="row">
-                <div class="container page-title col-md-10 col-sm-12">
-                    <h3>Customers</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="container content bg-white search-container col-md-10 col-sm-12">
-                    <form action="#" method="get">
-                        <div class="input-group">
-                            <input type="text" class="form-control form-control-search" placeholder="Company Name" name="keyword">
-                            <div class="input-group-append">
-                                <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="container content bg-white col-md-10 col-sm-12">
-                    <table class="table">
-                        <thead class="thead-dark">
-                        <th class="text-center"> </th>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">COMPANY NAME</th>
-                        <th class="text-center">USED</th>
-                        <th class="text-center">CONTRACT</th>
-                        <th class="text-center">UPDATED</th>
-                        <th class="text-center">CONTRACT DATE</th>
-                        <th class="text-center">EDIT</th>
-                        <th class="text-center">USERS</th>
-                        </thead>
-                        <tbody>
-                        <tr th:each="customer : ${customers}" class="text-center">
-                            <td><input type="checkbox" name="customers" th:value="${customer.id}"></td>
-                            <td th:text="${customer.id}" />
-                            <td th:text="${customer.companyName}" />
-                            <td th:text="${customer.recordsUsed}" />
-                            <td th:text="${customer.contractedRecords}" />
-                            <td th:text="${customer.updatedAt}" />
-                            <td th:text="${customer.createdAt}" />
-                            <td><a th:href="@{customerFormForUpdate(customerId=${customer.id})}" class="btn btn-action btn-md"><i class="fas fa-edit"></i></a></td>
-                            <td><a href="" class="btn btn-action btn-md"><i class="fas fa-list"></i></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="float-right">
-                        <a class="btn btn-danger btn-delete float-right">Delete Selection</a>
-                        <a th:href="@{customerForm}" class="btn btn-primary btn-add float-right">Add New</a>
+<!-- Content -->
+<div class="justify-content-center main">
+    <div class="row">
+        <div class="container page-title col-md-11 col-sm-12">
+            <h3>Customers</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container content bg-white search-container col-md-11 col-sm-12">
+            <form action="#" th:action="@{/admin/account/searchCustomers/0}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-search" placeholder="Company Name" name="companyName">
+                    <div class="input-group-append">
+                        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
+        <div class="container content bg-white col-md-11 col-sm-12">
+            <form th:action="@{/admin/account/delete}" action="#" method="POST">
+                <table class="table">
+                    <thead>
+                    <th class="text-center"></th>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">COMPANY NAME</th>
+                    <th class="text-center">USED</th>
+                    <th class="text-center">CONTRACT</th>
+                    <th class="text-center">UPDATED</th>
+                    <th class="text-center">CONTRACT DATE</th>
+                    <th class="text-center">EDIT</th>
+                    <th class="text-center">USERS</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="customer : ${customers}" class="text-center">
+                        <td><input type="checkbox" name="customers" th:value="${customer.id}"></td>
+                        <td th:text="${customer.id}"/>
+                        <td th:text="${customer.companyName}"/>
+                        <td th:text="${customer.recordsUsed}"/>
+                        <td th:text="${customer.contractedRecords}"/>
+                        <td th:text="${customer.updatedAt}"/>
+                        <td th:text="${customer.createdAt}"/>
+                        <td><a th:href="@{/admin/account/update(customerId=${customer.id})}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
+                        <td><a href="" class="btn btn-sm btn-action btn-md"><i class="fas fa-list"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="float-right">
+                    <input type="submit" value="Delete Selection" class="btn btn-sm btn-delete float-right">
+                    <a th:href="@{/admin/account/add}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
+                </div>
+            </form>
+        </div>
+        <div class="container pagination-content col-md-11 col-sm-12">
+            <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
+            <ul class="pagination pagination-sm float-right">
+                <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
+                    <a th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
+                </li>
+                <li class="page-item"
+                    th:each="pageNumber : ${pageNumbers}"
+                    th:classappend="${pageNumber == customers.number + 1 ? 'active' : ''}">
+                    <a class="page-link" th:href="@{'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
+                </li>
+                <li class="page-item" th:classappend="${offset == totalPages-1 ? 'disabled' : ''}">
+                    <a th:href="@{'/admin/account/' + ${offset+1}}" class="page-link">NEXT</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-    </body>
+</body>
 </html>
