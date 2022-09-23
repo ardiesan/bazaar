@@ -44,7 +44,7 @@ public class CustomerController {
 		int firstIndexOnPage = 0;
 		int lastIndexOnPage = 0;
 
-		if (companyName.isEmpty() || companyName == null) {
+		if (companyName == null) {
 			customers = customerService.findAll(offset);
 		} else {
 			customers = customerService.search(companyName, offset);
@@ -55,7 +55,11 @@ public class CustomerController {
 			totalPages = customers.getTotalPages();
 			totalEntries = customers.getTotalElements();
 			firstIndexOnPage = pageSize * offset + 1;
-			lastIndexOnPage = pageSize * offset + pageSize;
+			if (totalEntries < pageSize) {
+				lastIndexOnPage = (int) totalEntries;
+			} else {
+				lastIndexOnPage = pageSize * offset + pageSize;
+			}
 		}
 
 		model.addAttribute("customers", customers);
