@@ -12,5 +12,5 @@ public interface CustomerService {
 	Customer findById(int id);
 	Customer save(Customer customer);
 	void deleteById(int id);
-	void deleteSelectedRows(List<Integer> userIds);
+	void delete(Integer[] ids);
 }
