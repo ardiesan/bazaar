@@ -44,8 +44,8 @@
                         <td th:text="${customer.companyName}"/>
                         <td th:text="${customer.recordsUsed}"/>
                         <td th:text="${customer.contractedRecords}"/>
-                        <td th:text="${#temporals.format(customer.updatedAt, 'dd/MM/yyyy HH:mm')}"/>
-                        <td th:text="${#temporals.format(customer.createdAt, 'dd/MM/yyyy HH:mm')}"/>
+                        <td th:text="${#temporals.format(customer.updatedAt, 'yyyy/MM/dd HH:mm')}"/>
+                        <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td><a th:href="@{/admin/account/update(customerId=${customer.id})}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
                         <td><a href="" class="btn btn-sm btn-action btn-md"><i class="fas fa-list"></i></a></td>
                     </tr>
