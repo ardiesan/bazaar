@@ -62,15 +62,18 @@
             <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
             <ul class="pagination pagination-sm page-numbers float-right">
                 <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
-                    <a th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}">PREV</a>
+                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
                 </li>
                 <li class="page-item"
                     th:each="pageNumber : ${pageNumbers}"
                     th:classappend="${pageNumber == customers.number + 1 ? 'active' : ''}">
-                    <a class="page-link" th:href="@{'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
                 </li>
                 <li class="page-item" th:classappend="${offset == totalPages-1 ? 'disabled' : ''}">
-                    <a th:href="@{'/admin/account/' + ${offset+1}}" class="page-link">NEXT</a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1} + '?companyName=' + ${companyName}}">NEXT</a>
+                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1}}" class="page-link">NEXT</a>
                 </li>
             </ul>
         </div>
