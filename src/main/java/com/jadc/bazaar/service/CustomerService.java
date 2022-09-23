@@ -1,7 +1,5 @@
 package com.jadc.bazaar.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 
 import com.jadc.bazaar.entity.Customer;
