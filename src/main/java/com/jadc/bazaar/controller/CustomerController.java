@@ -37,7 +37,7 @@ public class CustomerController {
 
 	@GetMapping("/{offset}")
 	public String listAllWithPagination(@PathVariable("offset") int offset, @RequestParam(required = false) String companyName, Model model) {
-		Page<Customer> customers = null;
+		Page<Customer> customers;
 		int pageSize = 0;
 		int totalPages = 0;
 		long totalEntries = 0;
@@ -48,6 +48,7 @@ public class CustomerController {
 			customers = customerService.findAll(offset);
 		} else {
 			customers = customerService.search(companyName, offset);
+			model.addAttribute("companyName", companyName);
 		}
 
 		if (customers != null) {
