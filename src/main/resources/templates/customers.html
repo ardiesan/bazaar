@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="container content bg-white search-container col-md-11 col-sm-12">
-            <form action="#" th:action="@{/admin/account/search/0}" method="get">
+            <form action="#" th:action="@{/admin/account/0}" method="get">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-search" placeholder="Company Name" name="companyName">
                     <div class="input-group-append">
@@ -51,6 +51,7 @@
                     </tr>
                     </tbody>
                 </table>
+                <p th:if="${totalEntries == 0}" style="text-align: center">Company Not Found</p>
                 <div class="float-right">
                     <input type="submit" value="Delete Selection" class="btn btn-sm btn-delete float-right">
                     <a th:href="@{/admin/account/add}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
