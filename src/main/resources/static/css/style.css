@@ -302,11 +302,6 @@ textarea:focus {
     margin: auto;
 }
 
-/*input:focus {
-    outline: none;
-    box-shadow: 0 0 0;
-}*/
-
 /* Table styles */
 a.table-header-link {
 	color: #ffffff;
