@@ -46,7 +46,7 @@
                         <td th:text="${customer.contractedRecords}"/>
                         <td th:text="${#temporals.format(customer.updatedAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
-                        <td><a th:href="@{/admin/account/update(customerId=${customer.id})}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
+                        <td><a th:href="@{'/admin/account/form/' + ${customer.id}}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
                         <td><a href="" class="btn btn-sm btn-action btn-md"><i class="fas fa-list"></i></a></td>
                     </tr>
                     </tbody>
@@ -54,7 +54,7 @@
                 <p th:if="${totalEntries == 0}" style="text-align: center">Company Not Found</p>
                 <div class="float-right">
                     <input type="submit" value="Delete Selection" class="btn btn-sm btn-delete float-right">
-                    <a th:href="@{/admin/account/add}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
+                    <a th:href="@{/admin/account/form}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
                 </div>
             </form>
         </div>
