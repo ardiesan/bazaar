@@ -1,13 +1,18 @@
 package com.jadc.bazaar.entity;
 
+import static javax.persistence.DiscriminatorType.STRING;
+import static javax.persistence.InheritanceType.SINGLE_TABLE;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -20,6 +25,8 @@ import lombok.Data;
 @Table(name = "customers")
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@Inheritance(strategy=SINGLE_TABLE)
+@DiscriminatorColumn( name = "type" )
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
