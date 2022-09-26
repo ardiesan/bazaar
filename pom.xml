@@ -71,7 +71,17 @@
             <artifactId>webjars-locator-core</artifactId>
             <version>0.50</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.3.1</version>
+        </dependency>
     </dependencies>
+
 
     <profiles>
         <profile>
@@ -114,7 +124,6 @@
         <profile>
             <id>gh-public</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>spring.profiles.active</name>
                     <value>gh-public</value>
