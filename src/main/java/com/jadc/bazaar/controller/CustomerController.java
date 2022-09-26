@@ -81,16 +81,13 @@ public class CustomerController {
 		return "customers";
 	}
 
-	@GetMapping("/add")
-	public String showAddCustomerForm(Model model) {
-		model.addAttribute("customer", new Customer());
-
-		return "customer-form";
-	}
-
-	@GetMapping("/update")
-	public String showCustomerFormForUpdate(@RequestParam("customerId") int id, Model model) {
-		model.addAttribute("customer", customerService.findById(id));
+	@GetMapping(value = { "/form", "/form/{id}" })
+	public String showCustomerForm(@PathVariable(value = "id", required = false) Integer id, Model model) {
+		if (id == null) {
+			model.addAttribute("customer", new Customer());
+		} else {
+			model.addAttribute("customer", customerService.findById(id));
+		}
 
 		return "customer-form";
 	}
