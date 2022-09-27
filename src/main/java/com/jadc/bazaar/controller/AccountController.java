@@ -30,11 +30,14 @@ public class AccountController {
 
 	private final AccountService accountService;
 
-	@Value("${admin.username}")
+	@Value("${admin.bzrdb.username}")
 	private  String ADMIN_USERNAME;
 
-	@Value("${admin.password}")
+	@Value("${admin.bzrdb.password}")
 	String  ADMIN_PASSWORD;
+
+	@Value("${admin.bzrdb.url}")
+	String  ADMIN_URL;
 
 	@Autowired
 	public AccountController(AccountService service) {
@@ -50,8 +53,8 @@ public class AccountController {
 		Account account = accountService.createCredentials(id);
 
 		try{
-			MongoClient mongo = MongoClients.create("mongodb://rootuser:rootpass@localhost:27017/?authSource=admin");
-
+			MongoClient mongo = MongoClients.create(ADMIN_URL);
+			
 			MongoDatabase db = mongo.getDatabase(account.getDbName());
 			db.createCollection("Account Info");
 
@@ -65,7 +68,6 @@ public class AccountController {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-
 	}
 
 }

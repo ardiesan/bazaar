@@ -26,7 +26,7 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Inheritance(strategy=SINGLE_TABLE)
-@DiscriminatorColumn( name = "type" )
+@DiscriminatorColumn(name = "type")
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

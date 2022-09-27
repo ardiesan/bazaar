@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table( name = "customers")
+@Table(name = "customers")
 @NoArgsConstructor
-@DiscriminatorValue( value="A" )
+@DiscriminatorValue(value = "A")
 public class Account extends Customer{
 
 	@Column(name = "db_url")
