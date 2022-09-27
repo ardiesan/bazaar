@@ -7,7 +7,10 @@ import java.util.UUID;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.jadc.bazaar.entity.Account;
@@ -18,6 +21,10 @@ import com.mongodb.BasicDBObject;
 @Service
 public class AccountServiceImpl implements AccountService {
 	private final AccountRepository accountRepository;
+	final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+
+	@Value("${mongodb.url}")
+	String DB_URL;
 
 	@Autowired
 	public AccountServiceImpl(AccountRepository accountRepository) {
@@ -37,7 +44,8 @@ public class AccountServiceImpl implements AccountService {
 		return account;
 	}
 
-	@Override public void insertData(Integer id, String username, String password, String url, String dbName) {
+	@Override
+	public void insertData(Integer id, String username, String password, String url, String dbName) {
 		Account account = accountRepository.findById(id).get();
 		if(account != null){
 			account.setDbName(dbName);
@@ -78,11 +86,13 @@ public class AccountServiceImpl implements AccountService {
 
 		PasswordGenerator passwordGenerator = new PasswordGenerator();
 		String password = passwordGenerator.generatePassword(8, digits, lowerCase, upperCase);
-		System.out.println("Password: "+password);
+		logger.debug("Printing password value: " + password);
+
+
 //		String encodedPassword = new BCryptPasswordEncoder().encode(password);
 //		System.out.println("Encrypted Password:"+encodedPassword);
-		String dbName = uuidAsString.concat(findAccount.getCompanyName());
-		String dbUrl = "http://localhost:8081/db/_".concat(dbName);
+		String dbName = uuidAsString;
+		String dbUrl = DB_URL.concat(dbName);
 
 		account.setDbUser(uuidAsString);
 		account.setDbPass(password);
