@@ -1,6 +1,5 @@
 package com.jadc.bazaar.entity;
 
-import static javax.persistence.DiscriminatorType.STRING;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 import java.time.LocalDateTime;
@@ -25,7 +24,7 @@ import lombok.Data;
 @Table(name = "customers")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@Inheritance(strategy=SINGLE_TABLE)
+@Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 public class Customer {
 	@Id
@@ -52,7 +51,6 @@ public class Customer {
 	@Column(name = "updated_at")
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
-
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;

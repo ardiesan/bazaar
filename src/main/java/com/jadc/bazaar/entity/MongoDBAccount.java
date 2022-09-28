@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "customers")
 @NoArgsConstructor
 @DiscriminatorValue(value = "A")
-public class Account extends Customer{
+public class MongoDBAccount extends Customer {
 
 	@Column(name = "db_url")
 	private String dbUrl;
