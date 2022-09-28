@@ -19,7 +19,7 @@ import com.jadc.bazaar.entity.Customer;
 import com.jadc.bazaar.service.CustomerService;
 
 @Controller
-@RequestMapping("/admin/account")
+@RequestMapping("/{lang}/admin/account")
 public class CustomerController {
 
 	private final CustomerService customerService;
