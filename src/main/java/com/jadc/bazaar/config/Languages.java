@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Languages {
-	en, de, fr, ja;
+	en, ja;
 
 	public static Set<String> getNames() {
 		return Arrays.stream(Languages.values())
