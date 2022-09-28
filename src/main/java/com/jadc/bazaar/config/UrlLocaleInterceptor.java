@@ -21,26 +21,25 @@ public class UrlLocaleInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		String[] tokens = request.getRequestURI().trim().split("/");
-		String newLocale = tokens[1];
 
-		if (newLocale != null) {
-			LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+		try {
+			String newLocale = tokens[1];
 
-			if (localeResolver == null) {
-				throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
-			}
+			if (newLocale != null) {
+				LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 
-			try {
+				if (localeResolver == null) {
+					throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
+				}
 
 				if (Languages.getNames().contains(newLocale)) {
 					localeResolver.setLocale(request, response, parseLocaleValue(newLocale));
 				} else {
 					localeResolver.setLocale(request, response, parseLocaleValue("ja"));
 				}
-
-			} catch (IllegalArgumentException e) {
-				logger.error(e.getMessage());
 			}
+		} catch (Exception e) {
+			logger.error(e);
 		}
 
 		return true;
