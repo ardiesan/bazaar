@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DefaultLanguageController {
 
-	@GetMapping("/home")
-	public String home() {
-		return "home";
+	@GetMapping("/admin/account")
+	public String customers() {
+		return "redirect:/ja/admin/account";
+	}
+
+	@GetMapping("/")
+	public String root() {
+		return "redirect:/ja/admin/account";
 	}
 }
