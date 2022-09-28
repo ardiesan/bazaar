@@ -9,14 +9,14 @@
 <div class="justify-content-center main">
     <div class="row">
         <div class="container page-title col-md-11 col-sm-12">
-            <h3>Customers</h3>
+            <h3 data-th-text="#{app.table.header}"></h3>
         </div>
     </div>
     <div class="row">
         <div class="container content bg-white search-container col-md-11 col-sm-12">
-            <form action="#" th:action="@{/admin/account/0}" method="get">
+            <form action="#" th:action="@{'/'+#{app.message.locale}+'/admin/account/0'}" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control form-control-search" placeholder="Company Name" name="companyName">
+                    <input type="text" class="form-control form-control-search" data-th-placeholder="#{app.search.placeholder}" name="companyName">
                     <div class="input-group-append">
                         <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
                     </div>
@@ -24,18 +24,18 @@
             </form>
         </div>
         <div class="container content bg-white col-md-11 col-sm-12">
-            <form th:action="@{/admin/account/delete}" action="#" method="POST">
+            <form th:action="@{'/'+#{app.message.locale}+'/admin/account/delete'}" action="#" method="POST">
                 <table class="table">
                     <thead>
                     <th class="text-center"></th>
-                    <th class="text-center">ID</th>
-                    <th class="text-center">COMPANY NAME</th>
-                    <th class="text-center">USED</th>
-                    <th class="text-center">CONTRACT</th>
-                    <th class="text-center">UPDATED</th>
-                    <th class="text-center">CONTRACT DATE</th>
-                    <th class="text-center">EDIT</th>
-                    <th class="text-center">USERS</th>
+                    <th class="text-center" data-th-text="#{column.header.id}">ID</th>
+                    <th class="text-center" data-th-text="#{column.header.company_name}">COMPANY NAME</th>
+                    <th class="text-center" data-th-text="#{column.header.records_used}">USED</th>
+                    <th class="text-center" data-th-text="#{column.header.contracted_records}">CONTRACT</th>
+                    <th class="text-center" data-th-text="#{column.header.updated_at}">UPDATED</th>
+                    <th class="text-center" data-th-text="#{column.header.contract_date}">CONTRACT DATE</th>
+                    <th class="text-center" data-th-text="#{column.header.edit}">EDIT</th>
+                    <th class="text-center" data-th-text="#{column.header.user_management}">USERS</th>
                     </thead>
                     <tbody>
                     <tr th:each="customer : ${customers}" class="text-center">
@@ -46,15 +46,23 @@
                         <td th:text="${customer.contractedRecords}"/>
                         <td th:text="${#temporals.format(customer.updatedAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
-                        <td><a th:href="@{'/admin/account/form/' + ${customer.id}}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
-                        <td><a href="" class="btn btn-sm btn-action btn-md"><i class="fas fa-list"></i></a></td>
+                        <td>
+                            <a th:href="@{'/'+#{app.message.locale}+'/admin/account/form/' + ${customer.id}}" class="btn btn-sm btn-action">
+                                <i class="fas fa-edit" data-th-text="#{row.label.edit}"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-action btn-md" >
+                                <i class="fas fa-list" data-th-text="#{row.label.list}"></i>
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
-                <p th:if="${totalEntries == 0}" style="text-align: center">Company Not Found</p>
+                <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.footer.message}"></p>
                 <div class="float-right">
-                    <input type="submit" value="Delete Selection" class="btn btn-sm btn-delete float-right">
-                    <a th:href="@{/admin/account/form}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
+                    <input type="submit" data-th-value="#{table.button.label.delete}" class="btn btn-sm btn-delete float-right">
+                    <a th:href="@{'/'+#{app.message.locale}+'/admin/account/form'}" class="btn btn-sm btn-primary btn-add float-right" data-th-text="#{table.button.label.add}"></a>
                 </div>
             </form>
         </div>
@@ -62,18 +70,18 @@
             <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
             <ul class="pagination pagination-sm page-numbers float-right">
                 <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}">PREV</a>
-                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.prev}"></a>
+                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset-1}}" class="page-link" data-th-text="#{table.paging.prev}"></a>
                 </li>
                 <li class="page-item"
                     th:each="pageNumber : ${pageNumbers}"
                     th:classappend="${pageNumber == customers.number + 1 ? 'active' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
-                    <a class="page-link" th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
                 </li>
                 <li class="page-item" th:classappend="${offset == totalPages-1 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1} + '?companyName=' + ${companyName}}">NEXT</a>
-                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1}}" class="page-link">NEXT</a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset+1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.next}"></a>
+                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset+1}}" class="page-link" data-th-text="#{table.paging.next}"></a>
                 </li>
             </ul>
         </div>
