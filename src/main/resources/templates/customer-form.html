@@ -10,16 +10,16 @@
             <div class="row">
                 <div class="container page-title col-md-11 col-sm-12">
                     <div th:if="${customer.id}" class="col-12">
-                        <h3>Client Management - Edit Customer</h3>
+                        <h3 data-th-text="#{form.customer.edit.header}"></h3>
                     </div>
                     <div th:unless="${customer.id}" class="col-12">
-                        <h3>Client Management - Add Customer</h3>
+                        <h3 data-th-text="#{form.customer.add.header}"></h3>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="container content bg-white col-md-11 col-sm-12">
-                    <form action="#" th:action="@{save}" th:object="${customer}" method="post">
+                    <form action="#" th:action="@{'/'+#{app.message.locale}+'/admin/account/save'}" th:object="${customer}" method="post">
                         <div th:if="${customer.id}" class="col-11 form-field-group">
                             <label class="form-label">ID</label>
                             <input type="text" th:field="*{id}" class="form-control" readonly/>
@@ -28,18 +28,18 @@
                             <input type="hidden" th:field="*{id}">
                         </div>
                         <div class="col-11 form-field-group">
-                            <label class="form-label">Company Name</label>
+                            <label class="form-label" data-th-text="#{form.field.company.label}"></label>
                             <input type="text" th:field="*{companyName}" class="form-control" required />
                         </div>
                         <div class="col-11 form-field-group">
-                            <label class="form-label">Contracted Records</label>
+                            <label class="form-label" data-th-text="#{form.field.contractedrecords.label}"></label>
                             <input type="text" th:field="*{contractedRecords}" class="form-control" />
                         </div>
 
                         <!-- Submit button -->
                         <div class="col-11 form-field-group">
-                            <button type="submit" class="btn btn-sm btn-primary btn-submit float-right">Save</button>
-                            <a th:href="@{/admin/account/}" class="btn btn-sm btn-light btn-cancel float-right">Cancel</a>
+                            <button type="submit" class="btn btn-sm btn-primary btn-submit float-right" data-th-text="#{form.button.save}"></button>
+                            <a th:href="@{'/'+#{app.message.locale}+'/admin/account/'}" class="btn btn-sm btn-light btn-cancel float-right" data-th-text="#{form.button.cancel}"></a>
                         </div>
                     </form>
                 </div>
