@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="container content bg-white search-container col-md-11 col-sm-12">
-            <form action="#" th:action="@{/admin/account/0}" method="get">
+            <form action="#" th:action="@{/admin/account/1}" method="get">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-search" placeholder="Company Name" name="companyName">
                     <div class="input-group-append">
@@ -46,7 +46,7 @@
                         <td th:text="${customer.contractedRecords}"/>
                         <td th:text="${#temporals.format(customer.updatedAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
-                        <td><a th:href="@{'/admin/account/form/' + ${customer.id}}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
+                        <td><a th:href="@{'/admin/account/update/' + ${customer.id}}" class="btn btn-sm btn-action"><i class="fas fa-edit"></i></a></td>
                         <td><a href="" class="btn btn-sm btn-action btn-md"><i class="fas fa-list"></i></a></td>
                     </tr>
                     </tbody>
@@ -54,26 +54,26 @@
                 <p th:if="${totalEntries == 0}" style="text-align: center">Company Not Found</p>
                 <div class="float-right">
                     <input type="submit" value="Delete Selection" class="btn btn-sm btn-delete float-right">
-                    <a th:href="@{/admin/account/form}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
+                    <a th:href="@{/admin/account/add}" class="btn btn-sm btn-primary btn-add float-right">Add New</a>
                 </div>
             </form>
         </div>
         <div class="container pagination-content col-md-11 col-sm-12">
-            <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
+            <span>Showing [[${firstEntry}]] to [[${lastEntry}]] of [[${totalEntries}]] entries</span>
             <ul class="pagination pagination-sm page-numbers float-right">
-                <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}">PREV</a>
-                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset-1}}" class="page-link">PREV</a>
+                <li class="page-item" th:classappend="${currentPageNumber == 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${currentPageNumber-1} + '?companyName=' + ${companyName}}">PREV</a>
+                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${currentPageNumber-1}}" class="page-link">PREV</a>
                 </li>
                 <li class="page-item"
                     th:each="pageNumber : ${pageNumbers}"
                     th:classappend="${pageNumber == customers.number + 1 ? 'active' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
-                    <a class="page-link" th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
+                    <a class="page-link" th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${pageNumber}}" th:text=${pageNumber}></a>
                 </li>
-                <li class="page-item" th:classappend="${offset == totalPages-1 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1} + '?companyName=' + ${companyName}}">NEXT</a>
-                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${offset+1}}" class="page-link">NEXT</a>
+                <li class="page-item" th:classappend="${currentPageNumber == totalPages ? 'disabled' : ''}">
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/admin/account/' + ${currentPageNumber+1} + '?companyName=' + ${companyName}}">NEXT</a>
+                    <a th:unless="${param.companyName}" th:href="@{'/admin/account/' + ${currentPageNumber+1}}" class="page-link">NEXT</a>
                 </li>
             </ul>
         </div>

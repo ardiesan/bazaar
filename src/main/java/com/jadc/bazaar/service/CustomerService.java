@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import com.jadc.bazaar.entity.Customer;
 
 public interface CustomerService {
-	Page<Customer> findAll(int offset);
-	Page<Customer> search(String companyName, int offset);
+	Page<Customer> findAll(int offset, int entriesPerPage);
+	Page<Customer> search(String companyName, int offset, int entriesPerPage);
 	Customer findById(int id);
 	Customer save(Customer customer);
 	void deleteById(int id);
