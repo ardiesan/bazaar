@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="container content bg-white search-container col-md-11 col-sm-12">
-            <form action="#" th:action="@{'/'+#{app.message.locale}+'/admin/account/0'}" method="get">
+            <form action="#" th:action="@{'/'+#{app.message.locale}+'/admin/account/1'}" method="get">
                 <div class="input-group">
                     <input type="text" class="form-control form-control-search" data-th-placeholder="#{app.search.placeholder}" name="companyName">
                     <div class="input-group-append">
@@ -70,7 +70,8 @@
             <span>Showing [[${firstEntry}]] to [[${lastEntry}]] of [[${totalEntries}]] entries</span>
             <ul class="pagination pagination-sm page-numbers float-right">
                 <li class="page-item" th:classappend="${currentPageNumber == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.prev}"></a>
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}"
+                       data-th-text="#{table.paging.prev}"></a>
                     <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${currentPageNumber-1}}" class="page-link" data-th-text="#{table.paging.prev}"></a>
                 </li>
                 <li class="page-item"
