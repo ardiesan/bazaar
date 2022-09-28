@@ -13,48 +13,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.jadc.bazaar.entity.Account;
+import com.jadc.bazaar.entity.MongoDBAccount;
 import com.jadc.bazaar.exception.UserNotFoundException;
-import com.jadc.bazaar.repository.AccountRepository;
+import com.jadc.bazaar.repository.MongoDBAccountRepository;
 import com.mongodb.BasicDBObject;
 
 @Service
-public class AccountServiceImpl implements AccountService {
-	private final AccountRepository accountRepository;
-	final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+public class MongoDBAccountServiceImpl implements MongoDBAccountService {
+	private final MongoDBAccountRepository mongoDBAccountRepository;
+	private static final Logger logger = LoggerFactory.getLogger(MongoDBAccountServiceImpl.class);
 
-	@Value("${mongodb.url}")
+	@Value("${mongo_account.db.url}")
 	String DB_URL;
 
 	@Autowired
-	public AccountServiceImpl(AccountRepository accountRepository) {
-		this.accountRepository = accountRepository;
+	public MongoDBAccountServiceImpl(MongoDBAccountRepository mongoDBAccountRepository) {
+		this.mongoDBAccountRepository = mongoDBAccountRepository;
 	}
 
 	@Override
-	public Account save(Account account) {
-		return accountRepository.save(account);
+	public MongoDBAccount save(MongoDBAccount mongoDBAccount) {
+		return mongoDBAccountRepository.save(mongoDBAccount);
 	}
 
 	@Override
-	public Account findById(Integer id) {
-		Account account = accountRepository.findById(id)
+	public MongoDBAccount findById(Integer id) {
+		MongoDBAccount mongoDBAccount = mongoDBAccountRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("No user id " + id + " found"));
 
-		return account;
+		return mongoDBAccount;
 	}
 
 	@Override
 	public void insertData(Integer id, String username, String password, String url, String dbName) {
-		Account account = accountRepository.findById(id).get();
-		if(account != null){
-			account.setDbName(dbName);
-			account.setDbUrl(url.concat(dbName));
-			account.setDbUser(username);
-			account.setDbPass(password);
-			account.setUpdatedAt(LocalDateTime.now());
+		MongoDBAccount mongoDBAccount = mongoDBAccountRepository.findById(id).get();
+		if (mongoDBAccount != null) {
+			mongoDBAccount.setDbName(dbName);
+			mongoDBAccount.setDbUrl(url.concat(dbName));
+			mongoDBAccount.setDbUser(username);
+			mongoDBAccount.setDbPass(password);
+			mongoDBAccount.setUpdatedAt(LocalDateTime.now());
 
-			accountRepository.save(account);
+			mongoDBAccountRepository.save(mongoDBAccount);
 		}
 	}
 
@@ -71,9 +71,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account createCredentials(Integer id) {
-		Account findAccount = accountRepository.findById(id).get();
-		Account account = new Account();
+	public MongoDBAccount createCredentials(Integer id) {
+		MongoDBAccount findMongoDBAccount = mongoDBAccountRepository.findById(id).get();
+		MongoDBAccount mongoDBAccount = new MongoDBAccount();
 
 		// Generate uuid for username and dbname
 		UUID uuid = UUID.randomUUID();
@@ -88,17 +88,16 @@ public class AccountServiceImpl implements AccountService {
 		String password = passwordGenerator.generatePassword(8, digits, lowerCase, upperCase);
 		logger.debug("Printing password value: " + password);
 
-
-//		String encodedPassword = new BCryptPasswordEncoder().encode(password);
-//		System.out.println("Encrypted Password:"+encodedPassword);
+		//		String encodedPassword = new BCryptPasswordEncoder().encode(password);
+		//		logger.debug("Printing encoded password value: " + encodedPassword);
 		String dbName = uuidAsString;
 		String dbUrl = DB_URL.concat(dbName);
 
-		account.setDbUser(uuidAsString);
-		account.setDbPass(password);
-		account.setDbName(dbName);
-		account.setDbUrl(dbUrl);
+		mongoDBAccount.setDbUser(uuidAsString);
+		mongoDBAccount.setDbPass(password);
+		mongoDBAccount.setDbName(dbName);
+		mongoDBAccount.setDbUrl(dbUrl);
 
-		return account;
+		return mongoDBAccount;
 	}
 }
