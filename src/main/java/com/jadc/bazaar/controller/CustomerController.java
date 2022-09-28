@@ -22,6 +22,10 @@ import com.jadc.bazaar.service.CustomerService;
 @RequestMapping("/{lang}/admin/account")
 public class CustomerController {
 
+	private static final int ENTRIES_PER_PAGE = 20;
+	private static final int ACTIVE_PAGES_TOTAL = 10;
+	private static final int ACTIVE_PAGES_BEFORE_CURRENT = 4;
+
 	private final CustomerService customerService;
 
 	@Autowired
@@ -31,48 +35,63 @@ public class CustomerController {
 
 	@GetMapping("")
 	public String listAll(Model model) {
-		return listAllWithPagination(0, "", model);
+		return listAllWithPagination(1, "", model);
 	}
 
 	@GetMapping("/{pageNumber}")
-	public String listAllWithPagination(@PathVariable("pageNumber") int pageNumber,
+	public String listAllWithPagination(@PathVariable("pageNumber") int currentPageNumber,
 			@RequestParam(required = false) String companyName, Model model) {
 		Page<Customer> customers;
-		int pageSize = 0;
+		int offset = currentPageNumber - 1;
 		int totalPages = 0;
 		long totalEntries = 0;
-		int firstIndexOnPage = 0;
-		int lastIndexOnPage = 0;
+		int firstEntryOnPage = 0;
+		int lastEntryOnPage = 0;
+		int firstPageNumber = 1;
+		int lastPageNumber = ACTIVE_PAGES_TOTAL;
 
 		if (companyName == null) {
-			customers = customerService.findAll(pageNumber);
+			customers = customerService.findAll(offset, ENTRIES_PER_PAGE);
 		} else {
-			customers = customerService.search(companyName, pageNumber);
+			customers = customerService.search(companyName, offset, ENTRIES_PER_PAGE);
 			model.addAttribute("companyName", companyName);
 		}
 
 		if (customers != null) {
-			pageSize = customers.getSize();
+			int pageSize = customers.getSize();
 			totalPages = customers.getTotalPages();
 			totalEntries = customers.getTotalElements();
-			firstIndexOnPage = pageSize * pageNumber + 1;
-			if (totalEntries < pageSize) {
-				lastIndexOnPage = (int) totalEntries;
-			} else {
-				lastIndexOnPage = pageSize * pageNumber + pageSize;
+			firstEntryOnPage = (pageSize * offset) + 1;
+			lastEntryOnPage = pageSize * offset + pageSize;
+			if (totalEntries < pageSize || totalEntries < lastEntryOnPage) {
+				lastEntryOnPage = (int) totalEntries;
 			}
 		}
 
 		model.addAttribute("customers", customers);
-		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalEntries", totalEntries);
-		model.addAttribute("firstIndexOnPage", firstIndexOnPage);
-		model.addAttribute("lastIndexOnPage", lastIndexOnPage);
-		model.addAttribute("offset", pageNumber);
+		model.addAttribute("firstEntry", firstEntryOnPage);
+		model.addAttribute("lastEntry", lastEntryOnPage);
+		model.addAttribute("currentPageNumber", currentPageNumber);
+
+		if (currentPageNumber > firstPageNumber + ACTIVE_PAGES_BEFORE_CURRENT) {
+			firstPageNumber = currentPageNumber - ACTIVE_PAGES_BEFORE_CURRENT;
+			lastPageNumber = firstPageNumber + ACTIVE_PAGES_TOTAL - 1;
+		}
+
+		if (currentPageNumber >= totalPages - ACTIVE_PAGES_BEFORE_CURRENT) {
+			firstPageNumber = totalPages - ACTIVE_PAGES_TOTAL + 1;
+			lastPageNumber = totalPages;
+		}
+
+		if (totalPages < ACTIVE_PAGES_TOTAL) {
+			firstPageNumber = 1;
+			lastPageNumber = totalPages;
+		}
 
 		if (totalPages > 0) {
-			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+			List<Integer> pageNumbers = IntStream.rangeClosed(firstPageNumber, lastPageNumber)
 					.boxed()
 					.collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
@@ -81,7 +100,7 @@ public class CustomerController {
 		return "customers";
 	}
 
-	@GetMapping(value = { "/form", "/form/{id}" })
+	@GetMapping(value = { "/add", "/update/{id}" })
 	public String showCustomerForm(@PathVariable(value = "id", required = false) Integer id, Model model) {
 		if (id == null) {
 			model.addAttribute("customer", new Customer());

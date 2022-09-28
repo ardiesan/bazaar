@@ -16,7 +16,6 @@ import com.jadc.bazaar.repository.CustomerRepository;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-	private static final int PAGE_SIZE = 5;
 	private final CustomerRepository customerRepository;
 
 	@Autowired
@@ -31,15 +30,15 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Page<Customer> findAll(int offset) {
-		Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+	public Page<Customer> findAll(int offset, int entriesPerPage) {
+		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 
 		return customerRepository.findByIsDeletedFalse(pageable);
 	}
 
 	@Override
-	public Page<Customer> search(String companyName, int offset) {
-		Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+	public Page<Customer> search(String companyName, int offset, int entriesPerPage) {
+		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 
 		return customerRepository.findByIsDeletedFalseAndCompanyNameContaining(companyName, pageable);
 	}

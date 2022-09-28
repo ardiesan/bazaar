@@ -47,7 +47,7 @@
                         <td th:text="${#temporals.format(customer.updatedAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td>
-                            <a th:href="@{'/'+#{app.message.locale}+'/admin/account/form/' + ${customer.id}}" class="btn btn-sm btn-action">
+                            <a th:href="@{'/'+#{app.message.locale}+'/admin/account/update/' + ${customer.id}}" class="btn btn-sm btn-action">
                                 <i class="fas fa-edit" data-th-text="#{row.label.edit}"></i>
                             </a>
                         </td>
@@ -62,16 +62,16 @@
                 <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.footer.message}"></p>
                 <div class="float-right">
                     <input type="submit" data-th-value="#{table.button.label.delete}" class="btn btn-sm btn-delete float-right">
-                    <a th:href="@{'/'+#{app.message.locale}+'/admin/account/form'}" class="btn btn-sm btn-primary btn-add float-right" data-th-text="#{table.button.label.add}"></a>
+                    <a th:href="@{'/'+#{app.message.locale}+'/admin/account/add'}" class="btn btn-sm btn-primary btn-add float-right" data-th-text="#{table.button.label.add}"></a>
                 </div>
             </form>
         </div>
         <div class="container pagination-content col-md-11 col-sm-12">
-            <span>Showing [[${firstIndexOnPage}]] to [[${lastIndexOnPage}]] of [[${totalEntries}]] entries</span>
+            <span>Showing [[${firstEntry}]] to [[${lastEntry}]] of [[${totalEntries}]] entries</span>
             <ul class="pagination pagination-sm page-numbers float-right">
-                <li class="page-item" th:classappend="${offset == 0 ? 'disabled' : ''}">
+                <li class="page-item" th:classappend="${currentPageNumber == 0 ? 'disabled' : ''}">
                     <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset-1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.prev}"></a>
-                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset-1}}" class="page-link" data-th-text="#{table.paging.prev}"></a>
+                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${currentPageNumber-1}}" class="page-link" data-th-text="#{table.paging.prev}"></a>
                 </li>
                 <li class="page-item"
                     th:each="pageNumber : ${pageNumbers}"
@@ -79,9 +79,9 @@
                     <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${pageNumber-1} + '?companyName=' + ${companyName}}" th:text=${pageNumber}></a>
                     <a class="page-link" th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${pageNumber-1}}" th:text=${pageNumber}></a>
                 </li>
-                <li class="page-item" th:classappend="${offset == totalPages-1 ? 'disabled' : ''}">
-                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset+1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.next}"></a>
-                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${offset+1}}" class="page-link" data-th-text="#{table.paging.next}"></a>
+                <li class="page-item" th:classappend="${currentPageNumber == totalPages-1 ? 'disabled' : ''}">
+                    <a class="page-link" th:if="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${currentPageNumber+1} + '?companyName=' + ${companyName}}" data-th-text="#{table.paging.next}"></a>
+                    <a th:unless="${param.companyName}" th:href="@{'/'+#{app.message.locale}+'/admin/account/' + ${currentPageNumber+1}}" class="page-link" data-th-text="#{table.paging.next}"></a>
                 </li>
             </ul>
         </div>
