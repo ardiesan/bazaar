@@ -121,11 +121,13 @@ public class CustomerController {
 
 	@PostMapping("/save")
 	public String save(@ModelAttribute("customer") Customer customer) {
-		logger.info("Customer Created - Customer Controller");
-
 		AccountEvent event = new AccountEvent(this);
-		applicationEventPublisher.publishEvent(event);
-		customerService.save(customer);
+		Customer savedCustomer = customerService.save(customer);
+
+		if (savedCustomer != null) {
+			applicationEventPublisher.publishEvent(event);
+			logger.info("Customer Created - Customer Controller");
+		}
 
 		return "redirect:";
 	}
