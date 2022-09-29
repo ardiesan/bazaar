@@ -193,7 +193,7 @@ td {
 }
 
 .page-numbers {
-    width: 60%;
+    width: 68%;
 }
 
 /* Button and link styles */
@@ -224,7 +224,7 @@ td {
     padding-right: 1em;
 }
 
-.btn-delete {
+.btn-red {
     color: #fff;
     background-color: #ff0000;
 }
