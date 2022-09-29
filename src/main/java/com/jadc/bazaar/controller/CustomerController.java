@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jadc.bazaar.entity.Customer;
+import com.jadc.bazaar.event.AccountEvent;
 import com.jadc.bazaar.service.CustomerService;
 
 @Controller
@@ -26,11 +30,15 @@ public class CustomerController {
 	private static final int ACTIVE_PAGES_TOTAL = 10;
 	private static final int ACTIVE_PAGES_BEFORE_CURRENT = 4;
 
+	private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
+	private final ApplicationEventPublisher applicationEventPublisher;
 	private final CustomerService customerService;
 
 	@Autowired
-	public CustomerController(CustomerService service) {
+	public CustomerController(CustomerService service, ApplicationEventPublisher applicationEventPublisher) {
 		this.customerService = service;
+		this.applicationEventPublisher = applicationEventPublisher;
 	}
 
 	@GetMapping("")
@@ -113,7 +121,13 @@ public class CustomerController {
 
 	@PostMapping("/save")
 	public String save(@ModelAttribute("customer") Customer customer) {
-		customerService.save(customer);
+		AccountEvent event = new AccountEvent(this);
+		Customer savedCustomer = customerService.save(customer);
+
+		if (savedCustomer != null) {
+			applicationEventPublisher.publishEvent(event);
+			logger.info("Customer Created - Customer Controller");
+		}
 
 		return "redirect:";
 	}
