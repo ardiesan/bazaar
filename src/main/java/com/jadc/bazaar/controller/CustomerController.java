@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jadc.bazaar.entity.Customer;
 import com.jadc.bazaar.service.CustomerService;
 
-@Controller
-@RequestMapping("/{lang}/admin/account")
-public class CustomerController {
+	@Controller
+	@RequestMapping("/{lang}/admin/account")
+	public class CustomerController {
 
 	private static final int ENTRIES_PER_PAGE = 20;
 	private static final int ACTIVE_PAGES_TOTAL = 10;
