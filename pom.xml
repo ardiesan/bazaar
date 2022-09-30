@@ -75,20 +75,9 @@
 
     <profiles>
         <profile>
-            <id>db_conn_test</id>
-            <activation>
-                <property>
-                    <name>spring.profiles.active</name>
-                    <value>db_conn_test</value>
-                </property>
-            </activation>
-            <properties>
-                <resources.directory>${basedir}/src/main/resources/db_conn_test</resources.directory>
-            </properties>
-        </profile>
-        <profile>
             <id>dev</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>spring.profiles.active</name>
                     <value>dev</value>
@@ -121,6 +110,30 @@
             <properties>
                 <resources.directory>${basedir}/src/main/resources/prod</resources.directory>
             </properties>
+        </profile>
+        <profile>
+            <id>gh-public</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>spring.profiles.active</name>
+                    <value>gh-public</value>
+                </property>
+            </activation>
+            <properties>
+                <resources.directory>${basedir}/src/main/resources/gh-public</resources.directory>
+            </properties>
+            <distributionManagement>
+                <repository>
+                    <id>gh-public</id>
+                    <url>https://maven.pkg.github.com/ardiesan/bazaar</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                        <checksumPolicy>fail</checksumPolicy>
+                    </snapshots>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
 
