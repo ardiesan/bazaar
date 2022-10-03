@@ -24,16 +24,16 @@ public class AccountDocumentDBServiceImpl implements AccountDocumentDBService {
 	private final AccountDocumentDBRepository accountDocumentDBRepository;
 	private static final Logger logger = LoggerFactory.getLogger(AccountDocumentDBServiceImpl.class);
 
-	@Value("${bazaar.account.mongo.db.username}")
+	@Value("${bazaar.account.mongodb.username}")
 	private String ADMIN_USERNAME;
 
-	@Value("${bazaar.account.mongo.db.password}")
+	@Value("${bazaar.account.mongodb.password}")
 	String ADMIN_PASSWORD;
 
-	@Value("${bazaar.account.mongo.db.authenticate.url}")
+	@Value("${bazaar.account.mongodb.authenticate.url}")
 	String AUTHENTICATE_URL;
 
-	@Value("${bazaar.account.mongo.db.url}")
+	@Value("${bazaar.account.mongodb.url}")
 	String DB_URL;
 
 	@Autowired
