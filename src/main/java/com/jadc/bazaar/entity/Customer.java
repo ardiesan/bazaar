@@ -46,7 +46,6 @@ public class Customer {
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
-
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 }

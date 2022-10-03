@@ -121,8 +121,9 @@ public class CustomerController {
 
 	@PostMapping("/save")
 	public String save(@ModelAttribute("customer") Customer customer) {
-		AccountEvent event = new AccountEvent(this);
 		Customer savedCustomer = customerService.save(customer);
+		String id = Integer.toString(savedCustomer.getId());
+		AccountEvent event = new AccountEvent(this, id);
 
 		if (savedCustomer != null) {
 			applicationEventPublisher.publishEvent(event);
