@@ -1,6 +1,5 @@
 package com.jadc.bazaar.service;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -25,16 +24,16 @@ public class AccountDocumentDBServiceImpl implements AccountDocumentDBService {
 	private final AccountDocumentDBRepository accountDocumentDBRepository;
 	private static final Logger logger = LoggerFactory.getLogger(AccountDocumentDBServiceImpl.class);
 
-	@Value("${mongo_account.username}")
+	@Value("${bazaar.account.mongo.db.username}")
 	private String ADMIN_USERNAME;
 
-	@Value("${mongo_account.password}")
+	@Value("${bazaar.account.mongo.db.password}")
 	String ADMIN_PASSWORD;
 
-	@Value("${mongo_account.authenticate.url}")
+	@Value("${bazaar.account.mongo.db.authenticate.url}")
 	String AUTHENTICATE_URL;
 
-	@Value("${mongo_account.db.url}")
+	@Value("${bazaar.account.mongo.db.url}")
 	String DB_URL;
 
 	@Autowired
@@ -80,8 +79,7 @@ public class AccountDocumentDBServiceImpl implements AccountDocumentDBService {
 	@Override
 	public AccountDocumentDB createCredentials(Integer id) {
 		AccountDocumentDB mongoDBAccount = new AccountDocumentDB();
-		logger.debug("-Create Credentials-ID value "  + id);
-		if(id != 0){
+		if (id != 0) {
 			// Generate uuid for username and dbname
 			UUID uuid = UUID.randomUUID();
 			String uuidAsString = uuid.toString();
@@ -106,7 +104,7 @@ public class AccountDocumentDBServiceImpl implements AccountDocumentDBService {
 			mongoDBAccount.setDbName(dbName);
 			mongoDBAccount.setDbUrl(dbUrl);
 			save(mongoDBAccount);
-		}else{
+		} else {
 			logger.error("Account not found");
 			mongoDBAccount = null;
 		}
