@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class="container content bg-white col-md-11 col-sm-12">
-                <form action="#" th:action="@{'/'+#{app.message.locale}+'/admin/notification/save'}" th:object="${notification}" method="POST">
+                <form id="notificationForm" action="#" th:action="@{'/'+#{app.message.locale}+'/admin/notification/save'}" th:object="${notification}" method="POST">
 
                     <div th:if="${notification.id}" class="col-11 form-field-group">
                         <label class="form-label">ID</label>
@@ -41,12 +41,12 @@
 
                     <div class="col-11 form-field-group">
                         <label class="form-label">Publication Date</label>
-                        <input type="datetime-local" class="form-control" />
+                        <input type="datetime-local" th:value="${publicationDate}" class="form-control" name="publicationDateTime" />
                     </div>
 
                     <div class="col-11 form-field-group">
                         <label class="form-label">Category</label>
-                        <select class="form-control" id="categoryDropDownList">
+                        <select class="form-control" id="categoryDropDownList" th:field="*{notificationCategory}">
                             <option value="0">Information</option>
                             <option
                                     th:each="notificationCategory : ${notificationCategories}"
@@ -61,35 +61,18 @@
                         <input type="text" th:field="*{title}" class="form-control" required />
                     </div>
 
-
-                    <script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
                     <div class="col-11 form-field-group">
                         <label class="form-label">Body</label>
-                        <div id="editor">This is some sample content.</div>
+                        <textarea th:field="*{body}" name="body" id="editor">
+                            &lt;p&gt;This is some sample content.&lt;/p&gt;
+                        </textarea>
                     </div>
-                    <script>
-                        ClassicEditor
-                                .create( document.querySelector( '#editor' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
-                    </script>
-
-                    <!--
-                    <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
-                    <textarea name="editor1"></textarea>
-                    <script>
-                        CKEDITOR.replace( 'editor1' );
-                    </script>
-                    -->
 
                     <div class="col-11 form-field-group">
-                        <button type="submit" class="btn btn-sm btn-primary btn-submit float-right" data-th-text="#{form.button.save}"></button>
-                        <a th:href="@{/}" class="btn btn-sm btn-light btn-cancel float-right" data-th-text="#{form.button.cancel}"></a>
+                        <button id="notificationFormSubmit" type="button" class="btn btn-sm btn-primary btn-submit float-right" data-th-text="#{form.button.save}"></button>
+                        <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="btn btn-sm btn-light btn-cancel float-right" data-th-text="#{form.button.cancel}"></a>
                     </div>
+
                 </form>
             </div>
         </div>
