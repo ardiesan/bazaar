@@ -122,8 +122,6 @@ class NotificationRepositoryTest {
 
 		NotificationCategory notificationCategory = notificationCategoryRepository.findById(7).orElseThrow();
 		System.out.println(notificationCategory);
-
-		//Assertions.assertThat(notificationCategory.getName()).isEqualTo("line");
 	}
 
 	@Test
