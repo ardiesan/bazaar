@@ -25,7 +25,8 @@ import lombok.Data;
 @Data
 public class Notification {
 
-	@OneToOne(cascade = CascadeType.ALL)
+	//@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = {CascadeType.REFRESH})
 	@JoinColumn(name = "notification_category_id")
 	private NotificationCategory notificationCategory;
 
@@ -47,4 +48,10 @@ public class Notification {
 
 	@Column(name = "body", columnDefinition = "text")
 	private String body;
+
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
+
+	@Column(name = "is_deleted")
+	private Boolean isDeleted;
 }
