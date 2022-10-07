@@ -25,7 +25,6 @@ import lombok.Data;
 @Data
 public class Notification {
 
-	//@OneToOne(cascade = CascadeType.ALL)
 	@OneToOne(cascade = {CascadeType.REFRESH})
 	@JoinColumn(name = "notification_category_id")
 	private NotificationCategory notificationCategory;
