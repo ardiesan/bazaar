@@ -4,17 +4,7 @@
 </head>
 <body>
     <div th:replace="fragments :: navbar_menu"></div>
-    <div class="sidenav">
-        <a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/logo_s1.png}" class="nav-logo"/>
-            BazaarJADC
-        </a>
-        <a th:href="@{'/'+#{app.message.locale}+'/admin/account'}" class="sidenav-item">
-            <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customer}"></span>
-        </a>
-        <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item active">
-            <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.drawer.label.notifications}"></span>
-        </a>
-    </div>
+    <div th:replace="fragments :: notification_sidenav"></div>
 
     <div class="justify-content-center main">
         <div class="row">
