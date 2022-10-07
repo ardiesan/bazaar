@@ -8,3 +8,14 @@ $("#deleteButton").click(function() {
 
     return true;
 });
+
+$("#deleteButtonNotification").click(function() {
+    var $fields = $("#deleteFormNotification").find('input[name="notifications"]:checked');
+
+    if (!$fields.length) {
+        $('#errorDeleteModalNotification').modal('show');
+        return false
+    }
+
+    return true;
+});
