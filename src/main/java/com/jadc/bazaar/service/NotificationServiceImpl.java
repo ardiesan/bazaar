@@ -58,4 +58,9 @@ public class NotificationServiceImpl implements NotificationService {
 	public Notification findById(int id) {
 		return notificationRepository.findById(id).orElseThrow();
 	}
+
+	@Override
+	public void save(Notification notification) {
+		notificationRepository.save(notification);
+	}
 }
