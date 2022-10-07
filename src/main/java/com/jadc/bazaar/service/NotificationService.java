@@ -13,4 +13,5 @@ public interface NotificationService {
 	void delete(Integer[] ids);
 	void deleteById(int id);
 	Notification findById(int id);
+	void save(Notification notification);
 }
