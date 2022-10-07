@@ -15,4 +15,14 @@ public class DefaultLanguageController {
 	public String root() {
 		return "redirect:/ja/admin/account";
 	}
+
+	@GetMapping("/admin/notification")
+	public String notificationImplicitIndexMapping() {
+		return "redirect:/en/admin/notification/index";
+	}
+
+	@GetMapping("/admin/notification/index")
+	public String notificationExplicitIndexMapping() {
+		return "redirect:/en/admin/notification/index";
+	}
 }
