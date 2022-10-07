@@ -1,5 +1,7 @@
 package com.jadc.bazaar.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,9 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jadc.bazaar.entity.Customer;
 import com.jadc.bazaar.entity.Notification;
-import com.jadc.bazaar.event.AccountEvent;
+import com.jadc.bazaar.entity.NotificationCategory;
 import com.jadc.bazaar.repository.NotificationCategoryRepository;
 import com.jadc.bazaar.service.NotificationService;
 
@@ -118,7 +119,13 @@ public class NotificationController {
 		if (id == null) {
 			model.addAttribute("notification", new Notification());
 		} else {
-			model.addAttribute("notification", notificationService.findById(id));
+			Notification notification = notificationService.findById(id);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+			model.addAttribute("publicationDate", notification.getPublicationDate().format(formatter));
+			model.addAttribute("notification", notification);
+			model.addAttribute("categoryId", notification.getNotificationCategory().getId());
+			model.addAttribute("categoryName", notification.getNotificationCategory().getName());
 		}
 
 		model.addAttribute("notificationCategories", notificationCategoryRepository.findAll());
@@ -127,15 +134,18 @@ public class NotificationController {
 	}
 
 	@PostMapping("/save")
-	public String save(@ModelAttribute("notification") Notification notification) {
-//		Customer savedCustomer = customerService.save(customer);
-//		String id = Integer.toString(savedCustomer.getId());
-//		AccountEvent event = new AccountEvent(this, id);
-//
-//		if (savedCustomer != null) {
-//			applicationEventPublisher.publishEvent(event);
-//			logger.info("Customer Created - Customer Controller");
-//		}
+	public String save(
+			@ModelAttribute("notification") Notification notification,
+			@RequestParam("publicationDateTime") String publicationDateTime,
+			@RequestParam("notificationCategory") int category) {
+
+		NotificationCategory notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
+
+		notification.setNotificationCategory(notificationCategory);
+		notification.setPublicationDate(LocalDateTime.parse(publicationDateTime));
+		notification.setIsDeleted(false);
+
+		notificationService.save(notification);
 
 		return "redirect:";
 	}
