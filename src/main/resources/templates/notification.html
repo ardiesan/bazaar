@@ -7,8 +7,16 @@
     <div th:replace="fragments :: notification_sidenav"></div>
 
     <div class="justify-content-center main">
-        <div class="row">
 
+        <div th:if="${alertMsg != null}" id="success-alert" class="alert alert-success align-items-right" role="alert">
+            [[${alertMsg}]]
+        </div>
+
+        <div th:if="${errorMsg != null}" id="failure-alert" class="alert alert-danger align-items-right" role="alert">
+            [[${errorMsg}]]
+        </div>
+
+        <div class="row">
             <div class="container page-title col-md-11 col-sm-12">
                 <h3>Notification Management</h3>
             </div>
