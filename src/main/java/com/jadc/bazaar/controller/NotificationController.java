@@ -2,6 +2,7 @@ package com.jadc.bazaar.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -137,17 +138,34 @@ public class NotificationController {
 	public String save(
 			@ModelAttribute("notification") Notification notification,
 			@RequestParam("publicationDateTime") String publicationDateTime,
-			@RequestParam("notificationCategory") int category) {
+			@RequestParam("notificationCategory") int category,
+			Model model) {
 
 		NotificationCategory notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
 
 		notification.setNotificationCategory(notificationCategory);
-		notification.setPublicationDate(LocalDateTime.parse(publicationDateTime));
 		notification.setIsDeleted(false);
 
-		notificationService.save(notification);
+		String action;
+		if (notification.getId() > 0) {
+			action = "updated";
+		} else {
+			action = "created";
+		}
 
-		return "redirect:";
+		try {
+			notification.setPublicationDate(LocalDateTime.parse(publicationDateTime));
+
+			model.addAttribute("alertMsg", notification.getTitle()+" has been "+action);
+
+			notificationService.save(notification);
+
+			return root(model);
+		} catch (DateTimeParseException e) {
+			model.addAttribute("errorMsg", "An error occurred in "+action+" notification.");
+
+			return root(model);
+		}
 	}
 
 	@PostMapping("/delete")
