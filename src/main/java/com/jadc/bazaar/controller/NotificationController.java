@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jadc.bazaar.entity.Notification;
 import com.jadc.bazaar.entity.NotificationCategory;
@@ -36,7 +37,7 @@ public class NotificationController {
 		this.notificationCategoryRepository = notificationCategoryRepository;
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String root(Model model) {
 		return notificationIndex(model);
 	}
@@ -139,39 +140,30 @@ public class NotificationController {
 			@ModelAttribute("notification") Notification notification,
 			@RequestParam("publicationDateTime") String publicationDateTime,
 			@RequestParam("notificationCategory") int category,
-			Model model) {
+			RedirectAttributes attributes) {
 
 		NotificationCategory notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
 
 		notification.setNotificationCategory(notificationCategory);
 		notification.setIsDeleted(false);
 
-		String action;
-		if (notification.getId() > 0) {
-			action = "updated";
-		} else {
-			action = "created";
-		}
-
 		try {
 			notification.setPublicationDate(LocalDateTime.parse(publicationDateTime));
-
-			model.addAttribute("alertMsg", notification.getTitle()+" has been "+action);
+			attributes.addFlashAttribute("saveSuccess", true);
 
 			notificationService.save(notification);
-
-			return root(model);
 		} catch (DateTimeParseException e) {
-			model.addAttribute("errorMsg", "An error occurred in "+action+" notification.");
-
-			return root(model);
+			attributes.addFlashAttribute("saveError", true);
 		}
+
+		return "redirect:/{lang}/admin/notification";
 	}
 
 	@PostMapping("/delete")
-	public String deleteRows(@RequestParam("notifications") Integer[] notifications) {
+	public String deleteRows(@RequestParam("notifications") Integer[] notifications, RedirectAttributes attributes) {
 		notificationService.delete(notifications);
+		attributes.addFlashAttribute("deleteSuccess", true);
 
-		return "redirect:";
+		return "redirect:/{lang}/admin/notification";
 	}
 }
