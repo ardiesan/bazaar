@@ -32,25 +32,15 @@
         </nav>
     </div>
 
-    <div th:fragment="customer_sidenav">
-        <div class="sidenav">
+    <div th:fragment="admin_sidenav">
+        <div class="sidenav" th:with="locale=('/' + #{app.message.locale})">
             <a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/logo_s1.png}" class="nav-logo"/>BazaarJADC</a>
-            <a th:href="@{'/'+#{app.message.locale}+'/admin/account'}" class="sidenav-item active">
-                <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customer}"></span>
+            <a th:href="@{'/'+#{app.message.locale}+'/admin/account'}" class="sidenav-item"
+               th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/account') ? 'active' : ''}">
+                <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customers}"></span>
             </a>
-            <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item">
-                <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.drawer.label.notifications}"></span>
-            </a>
-        </div>
-    </div>
-
-    <div th:fragment="notification_sidenav">
-        <div class="sidenav">
-            <a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/logo_s1.png}" class="nav-logo"/>BazaarJADC</a>
-            <a th:href="@{'/'+#{app.message.locale}+'/admin/account'}" class="sidenav-item">
-                <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customer}"></span>
-            </a>
-            <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item active">
+            <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item"
+                th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/notification') ? 'active' : ''}">
                 <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.drawer.label.notifications}"></span>
             </a>
         </div>
