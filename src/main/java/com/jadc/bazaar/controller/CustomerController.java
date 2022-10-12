@@ -23,7 +23,7 @@ import com.jadc.bazaar.event.AccountEvent;
 import com.jadc.bazaar.service.CustomerService;
 
 @Controller
-@RequestMapping("/{lang}/admin/account")
+@RequestMapping(value = { "/admin/account", "/{lang}/admin/account" })
 public class CustomerController {
 
 	private static final int ENTRIES_PER_PAGE = 20;
