@@ -37,11 +37,11 @@
             <a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/logo_s1.png}" class="nav-logo"/>BazaarJADC</a>
             <a th:href="@{'/'+#{app.message.locale}+'/admin/account'}" class="sidenav-item"
                th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/account') ? 'active' : ''}">
-                <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customers}"></span>
+                <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.sidenav.label.customers}"></span>
             </a>
             <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item"
                 th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/notification') ? 'active' : ''}">
-                <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.drawer.label.notifications}"></span>
+                <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.sidenav.label.notifications}"></span>
             </a>
         </div>
     </div>
