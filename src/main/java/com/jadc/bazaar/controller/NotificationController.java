@@ -24,7 +24,7 @@ import com.jadc.bazaar.repository.NotificationCategoryRepository;
 import com.jadc.bazaar.service.NotificationService;
 
 @Controller
-@RequestMapping("/{lang}/admin/notification")
+@RequestMapping(value = { "/admin/notification", "/{lang}/admin/notification" })
 public class NotificationController {
 	private static final int ENTRIES_PER_PAGE = 20;
 	private static final int ACTIVE_PAGES_TOTAL = 10;
