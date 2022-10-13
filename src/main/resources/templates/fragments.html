@@ -40,7 +40,7 @@
                 <i class="fas fa-book sidenav-icon"></i><span data-th-text="#{app.drawer.label.customers}"></span>
             </a>
             <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/index'}" class="sidenav-item"
-               th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/notification') ? 'active' : ''}">
+                th:classappend="${#httpServletRequest.getRequestURI().startsWith(locale + '/admin/notification') ? 'active' : ''}">
                 <i class="fas fa-bell sidenav-icon"></i><span data-th-text="#{app.drawer.label.notifications}"></span>
             </a>
         </div>
