@@ -8,7 +8,7 @@
 <div class="justify-content-center main">
     <div class="row">
         <div class="container page-title col-md-11 col-sm-12">
-            <h3 data-th-text="#{table.client.title}"></h3>
+            <h3 data-th-text="#{app.table.header.customers}"></h3>
         </div>
     </div>
     <div class="row">
@@ -27,14 +27,14 @@
                 <table class="table">
                     <thead>
                     <th class="text-center"></th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.id}">ID</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.company_name}">COMPANY NAME</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.records_used}">USED</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.contracted_records}">CONTRACT</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.updated_at}">UPDATED</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.contract_date}">CONTRACT DATE</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.edit}">EDIT</th>
-                    <th class="text-center" data-th-text="#{table.client.column.header.user_management}">USERS</th>
+                    <th class="text-center" data-th-text="#{column.header.id}">ID</th>
+                    <th class="text-center" data-th-text="#{column.header.company_name}">COMPANY NAME</th>
+                    <th class="text-center" data-th-text="#{column.header.records_used}">USED</th>
+                    <th class="text-center" data-th-text="#{column.header.contracted_records}">CONTRACT</th>
+                    <th class="text-center" data-th-text="#{column.header.updated_at}">UPDATED</th>
+                    <th class="text-center" data-th-text="#{column.header.contract_date}">CONTRACT DATE</th>
+                    <th class="text-center" data-th-text="#{column.header.edit}">EDIT</th>
+                    <th class="text-center" data-th-text="#{column.header.user_management}">USERS</th>
                     </thead>
                     <tbody>
                     <tr th:each="customer : ${customers}" class="text-center">
@@ -47,18 +47,18 @@
                         <td th:text="${#temporals.format(customer.createdAt, 'yyyy/MM/dd HH:mm')}"/>
                         <td>
                             <a th:href="@{'/'+#{app.message.locale}+'/admin/account/update/' + ${customer.id}}" class="btn btn-sm btn-action">
-                                <i class="fas fa-edit" data-th-text="#{table.client.row.edit.button}"></i>
+                                <i class="fas fa-edit" data-th-text="#{row.label.edit}"></i>
                             </a>
                         </td>
                         <td>
                             <a href="" class="btn btn-sm btn-action btn-md">
-                                <i class="fas fa-list" data-th-text="#{table.client.row.list.button}"></i>
+                                <i class="fas fa-list" data-th-text="#{row.label.list}"></i>
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.client.footer.message.company_not_found}"></p>
+                <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.footer.message.company_not_found}"></p>
                 <div class="float-right">
                     <input type="button" data-th-value="#{table.button.label.delete}" id="deleteCustomerButton" data-toggle="modal" data-target="#confirmSubmitCustomerModal"
                            class="btn btn-sm btn-delete btn-red float-right">

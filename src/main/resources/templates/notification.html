@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="container page-title col-md-11 col-sm-12">
-            <h3 data-th-text="#{table.notification.title}"></h3>
+            <h3 data-th-text="#{app.table.header.notifications}"></h3>
         </div>
     </div>
     <div class="row">
@@ -33,12 +33,12 @@
                 <table class="table">
                     <thead>
                     <th class="text-center"></th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.id}">ID</th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.category}"></th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.title}"></th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.updated_at}"></th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.publication_date_time}"></th>
-                    <th class="text-center" data-th-text="#{table.notification.column.header.edit}"></th>
+                    <th class="text-center" data-th-text="#{column.header.id}">ID</th>
+                    <th class="text-center" data-th-text="#{column.header.category}"></th>
+                    <th class="text-center" data-th-text="#{column.header.title}">=</th>
+                    <th class="text-center" data-th-text="#{column.header.updated_at}"></th>
+                    <th class="text-center" data-th-text="#{column.header.publication_date}"></th>
+                    <th class="text-center" data-th-text="#{column.header.edit}"></th>
                     </thead>
                     <tbody>
                     <tr th:each="notification : ${notifications}" class="text-center">
@@ -50,14 +50,14 @@
                         <td th:text="${#temporals.format(notification.publicationDate, 'yyyy/MM/dd HH:mm')}"/>
                         <td>
                             <a th:href="@{'/'+#{app.message.locale}+'/admin/notification/update/' + ${notification.id}}" class="btn btn-sm btn-action">
-                                <i class="fas fa-edit" data-th-text="#{table.notification.row.edit.button}"></i>
+                                <i class="fas fa-edit" data-th-text="#{row.label.edit}"></i>
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
 
-                <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.notification.footer.message.notification_not_found}"></p>
+                <p th:if="${totalEntries == 0}" style="text-align: center" data-th-text="#{table.footer.message.notification_not_found}"></p>
 
                 <div class="float-right">
                     <input type="button" data-th-value="#{table.button.label.delete}" id="deleteNotificationButton" data-toggle="modal" data-target="#confirmSubmitNotificationModal"
