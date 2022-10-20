@@ -18,22 +18,21 @@ public class AccountDocumentDB {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private int id;
 
-	@Column(name = "account_id")
+	@Column
 	private int accountID;
 
-	@Column(name = "db_url")
+	@Column
 	private String dbUrl;
 
-	@Column(name = "db_name")
+	@Column
 	private String dbName;
 
-	@Column(name = "db_user")
+	@Column
 	private String dbUser;
 
-	@Column(name = "db_pass")
+	@Column
 	private String dbPass;
 
 }
