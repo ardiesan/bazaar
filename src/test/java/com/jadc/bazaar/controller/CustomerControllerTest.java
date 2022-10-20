@@ -26,7 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.jadc.bazaar.entity.Customer;
+import com.jadc.bazaar.entity.Customers;
 import com.jadc.bazaar.service.CustomerService;
 
 @ExtendWith(SpringExtension.class)
@@ -46,12 +46,12 @@ class CustomerControllerTest {
 	@InjectMocks
 	private CustomerController customerController;
 
-	Customer customer;
-	List<Customer> customers;
+	Customers customer;
+	List<Customers> customers;
 
 	@BeforeEach
 	void setUp() {
-		customer = new Customer();
+		customer = new Customers();
 		customer.setId(1);
 		customer.setCompanyName("Company1");
 		customer.setContractedRecords(100);
@@ -63,7 +63,7 @@ class CustomerControllerTest {
 
 	@Test
 	void testListAll() throws Exception {
-		Page<Customer> customerPage = new PageImpl<>(customers);
+		Page<Customers> customerPage = new PageImpl<>(customers);
 
 		when(customerService.findAll(0, 3)).thenReturn(customerPage);
 		mockMvc.perform(get(URL_LOCALE + URL_PREFIX))

@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.jadc.bazaar.entity.Customer;
+import com.jadc.bazaar.entity.Customers;
 import com.jadc.bazaar.exception.UserNotFoundException;
 import com.jadc.bazaar.repository.CustomerRepository;
 
@@ -24,33 +24,33 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Customer findById(int id) {
+	public Customers findById(int id) {
 		return customerRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("No user id " + id + " found"));
 	}
 
 	@Override
-	public Page<Customer> findAll(int offset, int entriesPerPage) {
+	public Page<Customers> findAll(int offset, int entriesPerPage) {
 		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 
 		return customerRepository.findByIsDeletedFalse(pageable);
 	}
 
 	@Override
-	public Page<Customer> search(String companyName, int offset, int entriesPerPage) {
+	public Page<Customers> search(String companyName, int offset, int entriesPerPage) {
 		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 
 		return customerRepository.findByIsDeletedFalseAndCompanyNameContaining(companyName, pageable);
 	}
 
 	@Override
-	public Customer save(Customer customer) {
+	public Customers save(Customers customer) {
 		return customerRepository.save(customer);
 	}
 
 	@Override
 	public void deleteById(int id) {
-		Customer customer = this.findById(id);
+		Customers customer = this.findById(id);
 		customer.setDeleted(true);
 
 		customer.setDeletedAt(LocalDateTime.now());

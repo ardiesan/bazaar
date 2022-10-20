@@ -22,7 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import com.jadc.bazaar.entity.Customer;
+import com.jadc.bazaar.entity.Customers;
 import com.jadc.bazaar.exception.UserNotFoundException;
 import com.jadc.bazaar.repository.CustomerRepository;
 
@@ -34,16 +34,16 @@ class CustomerServiceImplTest {
 	private CustomerService customerServiceToTest;
 
 	@Captor
-	ArgumentCaptor<Customer> customerArgumentCaptor;
+	ArgumentCaptor<Customers> customerArgumentCaptor;
 
-	private Customer customer;
+	private Customers customer;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		customerServiceToTest = new CustomerServiceImpl(customerRepo);
 
-		customer = new Customer();
+		customer = new Customers();
 		customer.setId(1);
 		customer.setCompanyName("Company1");
 		customer.setContractedRecords(100);
@@ -55,7 +55,7 @@ class CustomerServiceImplTest {
 	void testFindById() {
 		given(customerRepo.findById(customer.getId())).willReturn(Optional.of(customer));
 
-		Customer foundCustomer = customerServiceToTest.findById(customer.getId());
+		Customers foundCustomer = customerServiceToTest.findById(customer.getId());
 
 		assertThat(foundCustomer).isNotNull();
 	}
@@ -80,13 +80,13 @@ class CustomerServiceImplTest {
 
 	@Test
 	void testSearchFoundOneResult() {
-		List<Customer> customers = new ArrayList<>();
+		List<Customers> customers = new ArrayList<>();
 		customers.add(customer);
 
-		Page<Customer> customerPage = new PageImpl<>(customers);
+		Page<Customers> customerPage = new PageImpl<>(customers);
 		given(customerRepo.findByIsDeletedFalseAndCompanyNameContaining(any(), any())).willReturn(customerPage);
 
-		Page<Customer> searchResults = customerServiceToTest.search("Company", 0, 1);
+		Page<Customers> searchResults = customerServiceToTest.search("Company", 0, 1);
 		assertThat(searchResults).isNotNull();
 		assertThat(searchResults.getTotalElements()).isEqualTo(1);
 	}
@@ -95,7 +95,7 @@ class CustomerServiceImplTest {
 	void testSearchNoResultsFound() {
 		given(customerRepo.findByIsDeletedFalseAndCompanyNameContaining(any(), any())).willReturn(null);
 
-		Page<Customer> searchResults = customerServiceToTest.search("Company2", 0, 1);
+		Page<Customers> searchResults = customerServiceToTest.search("Company2", 0, 1);
 		assertThat(searchResults).isNull();
 	}
 
@@ -105,7 +105,7 @@ class CustomerServiceImplTest {
 
 		verify(customerRepo).save(customerArgumentCaptor.capture());
 
-		Customer capturedCustomer = customerArgumentCaptor.getValue();
+		Customers capturedCustomer = customerArgumentCaptor.getValue();
 		assertThat(capturedCustomer).isEqualTo(customer);
 	}
 

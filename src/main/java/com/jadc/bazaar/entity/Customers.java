@@ -8,7 +8,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,35 +16,34 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Data;
 
 @Entity
-@Table(name = "customers")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Customer {
+public class Customers {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private int id;
 
-	@Column(name = "company_name", length = 128)
+	@Column(length = 128)
 	private String companyName;
 
-	@Column(name = "records_used")
+	@Column
 	private int recordsUsed;
 
-	@Column(name = "contracted_records")
+	@Column
 	private int contractedRecords;
 
-	@Column(name = "is_deleted")
+	@Column
 	private boolean isDeleted;
 
-	@Column(name = "created_at", updatable = false)
+	@Column(updatable = false)
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@Column(name = "updated_at")
+	@Column
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
-	@Column(name = "deleted_at")
+	@Column
 	private LocalDateTime deletedAt;
 }
