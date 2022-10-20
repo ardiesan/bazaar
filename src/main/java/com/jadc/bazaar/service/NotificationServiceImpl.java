@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.jadc.bazaar.entity.Notification;
+import com.jadc.bazaar.entity.Notifications;
 import com.jadc.bazaar.repository.NotificationRepository;
 
 @Service
@@ -24,18 +24,18 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public List<Notification> findAll() {
+	public List<Notifications> findAll() {
 		return notificationRepository.findAll();
 	}
 
 	@Override
-	public Page<Notification> findAll(int offset, int entriesPerPage) {
+	public Page<Notifications> findAll(int offset, int entriesPerPage) {
 		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 		return notificationRepository.findByIsDeletedFalse(pageable);
 	}
 
 	@Override
-	public Page<Notification> search(String title, int offset, int entriesPerPage) {
+	public Page<Notifications> search(String title, int offset, int entriesPerPage) {
 		Pageable pageable = PageRequest.of(offset, entriesPerPage);
 		return notificationRepository.findByIsDeletedFalseAndTitleContaining(title, pageable);
 	}
@@ -47,7 +47,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Override
 	public void deleteById(int id) {
-		Notification notification = notificationRepository.findById(id).orElseThrow();
+		Notifications notification = notificationRepository.findById(id).orElseThrow();
 		notification.setIsDeleted(true);
 		notification.setDeletedAt(LocalDateTime.now());
 
@@ -55,12 +55,12 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public Notification findById(int id) {
+	public Notifications findById(int id) {
 		return notificationRepository.findById(id).orElseThrow();
 	}
 
 	@Override
-	public void save(Notification notification) {
+	public void save(Notifications notification) {
 		notificationRepository.save(notification);
 	}
 }

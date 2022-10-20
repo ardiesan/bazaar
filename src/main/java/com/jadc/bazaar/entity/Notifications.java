@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,37 +19,35 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Data;
 
 @Entity
-@Table(name = "notifications")
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Notification {
+public class Notifications {
 
 	@OneToOne(cascade = {CascadeType.REFRESH})
 	@JoinColumn(name = "notification_category_id")
-	private NotificationCategory notificationCategory;
+	private NotificationCategories notificationCategory;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private int id;
 
-	@Column(name = "title", length = 128)
+	@Column(length = 128)
 	private String title;
 
-	@Column(name = "updated_at")
+	@Column
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
-	@Column(name = "created_at", updatable = false)
+	@Column(updatable = false)
 	@CreatedDate
 	private LocalDateTime publicationDate;
 
-	@Column(name = "body", columnDefinition = "text")
+	@Column(columnDefinition = "text")
 	private String body;
 
-	@Column(name = "deleted_at")
+	@Column
 	private LocalDateTime deletedAt;
 
-	@Column(name = "is_deleted")
+	@Column
 	private Boolean isDeleted;
 }

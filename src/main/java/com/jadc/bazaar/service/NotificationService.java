@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.jadc.bazaar.entity.Notification;
+import com.jadc.bazaar.entity.Notifications;
 
 public interface NotificationService {
-	List<Notification> findAll();
-	Page<Notification> findAll(int offset, int entriesPerPage);
-	Page<Notification> search(String companyName, int offset, int entriesPerPage);
+	List<Notifications> findAll();
+	Page<Notifications> findAll(int offset, int entriesPerPage);
+	Page<Notifications> search(String companyName, int offset, int entriesPerPage);
 	void delete(Integer[] ids);
 	void deleteById(int id);
-	Notification findById(int id);
-	void save(Notification notification);
+	Notifications findById(int id);
+	void save(Notifications notification);
 }

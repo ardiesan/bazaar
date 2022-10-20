@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jadc.bazaar.entity.Notification;
-import com.jadc.bazaar.entity.NotificationCategory;
+import com.jadc.bazaar.entity.Notifications;
+import com.jadc.bazaar.entity.NotificationCategories;
 import com.jadc.bazaar.repository.NotificationCategoryRepository;
 import com.jadc.bazaar.service.NotificationService;
 
@@ -53,7 +53,7 @@ public class NotificationController {
 			@RequestParam(value = "notificationTitle", required = false) String notificationTitle,
 			Model model) {
 
-		Page<Notification> notifications;
+		Page<Notifications> notifications;
 		int offset = currentPageNumber - 1;
 		int totalPages = 0;
 		long totalEntries = 0;
@@ -119,9 +119,9 @@ public class NotificationController {
 			Model model) {
 
 		if (id == null) {
-			model.addAttribute("notification", new Notification());
+			model.addAttribute("notification", new Notifications());
 		} else {
-			Notification notification = notificationService.findById(id);
+			Notifications notification = notificationService.findById(id);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 			model.addAttribute("publicationDate", notification.getPublicationDate().format(formatter));
@@ -137,12 +137,12 @@ public class NotificationController {
 
 	@PostMapping("/save")
 	public String save(
-			@ModelAttribute("notification") Notification notification,
+			@ModelAttribute("notification") Notifications notification,
 			@RequestParam("publicationDateTime") String publicationDateTime,
 			@RequestParam("notificationCategory") int category,
 			RedirectAttributes attributes) {
 
-		NotificationCategory notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
+		NotificationCategories notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
 
 		notification.setNotificationCategory(notificationCategory);
 		notification.setIsDeleted(false);

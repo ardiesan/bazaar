@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.jadc.bazaar.entity.NotificationCategory;
+import com.jadc.bazaar.entity.NotificationCategories;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -20,11 +20,11 @@ class NotificationCategoryRepositoryTest {
 	@Autowired
 	private NotificationCategoryRepository notificationCategoryRepository;
 
-	private NotificationCategory notificationCategory;
+	private NotificationCategories notificationCategory;
 
 	@BeforeEach
 	void setup() {
-		notificationCategory = new NotificationCategory();
+		notificationCategory = new NotificationCategories();
 		notificationCategory.setName("Instagram");
 		notificationCategory.setIsDeleted(false);
 		notificationCategory.setDisplayOrder(12);
@@ -36,7 +36,7 @@ class NotificationCategoryRepositoryTest {
 	public void testFindById() {
 		int id = 3;
 
-		NotificationCategory notificationCategory = notificationCategoryRepository.findById(id).get();
+		NotificationCategories notificationCategory = notificationCategoryRepository.findById(id).get();
 		Assertions.assertEquals(id, notificationCategory.getId());
 	}
 
@@ -44,7 +44,7 @@ class NotificationCategoryRepositoryTest {
 	public void testFindAll() {
 		int expectedResult = 5;
 
-		List<NotificationCategory> notificationCategories = notificationCategoryRepository.findAll();
+		List<NotificationCategories> notificationCategories = notificationCategoryRepository.findAll();
 		Assertions.assertEquals(expectedResult, notificationCategories.size());
 	}
 

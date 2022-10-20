@@ -5,10 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.jadc.bazaar.entity.Notification;
+import com.jadc.bazaar.entity.Notifications;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-	Page<Notification> findByIsDeletedFalse(Pageable pageable);
-	Page<Notification> findByIsDeletedFalseAndTitleContaining(String title, Pageable pageable);
+public interface NotificationRepository extends JpaRepository<Notifications, Integer> {
+	Page<Notifications> findByIsDeletedFalse(Pageable pageable);
+	Page<Notifications> findByIsDeletedFalseAndTitleContaining(String title, Pageable pageable);
 }

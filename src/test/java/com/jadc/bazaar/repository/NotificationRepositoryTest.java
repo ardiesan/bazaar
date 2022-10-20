@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.jadc.bazaar.entity.Notification;
-import com.jadc.bazaar.entity.NotificationCategory;
+import com.jadc.bazaar.entity.Notifications;
+import com.jadc.bazaar.entity.NotificationCategories;
 
 @SpringBootTest
 class NotificationRepositoryTest {
@@ -21,10 +21,10 @@ class NotificationRepositoryTest {
 
 	@Test
 	void testInsertNotification() {
-		NotificationCategory category = notificationCategoryRepository.findById(3).orElseThrow();
+		NotificationCategories category = notificationCategoryRepository.findById(3).orElseThrow();
 		assertThat(category.getName()).isEqualTo("twitter");
 
-		Notification notification = new Notification();
+		Notifications notification = new Notifications();
 		notification.setId(1);
 		notification.setTitle("Twitter Notification");
 		notification.setNotificationCategory(category);
@@ -34,16 +34,16 @@ class NotificationRepositoryTest {
 
 		notificationRepository.save(notification);
 
-		Notification getNotification = notificationRepository.findById(1).orElseThrow();
+		Notifications getNotification = notificationRepository.findById(1).orElseThrow();
 		assertThat(getNotification.getTitle()).isEqualTo("Twitter Notification");
 	}
 
 	@Test
 	void testInsertManyNotifications() {
-		final NotificationCategory category = notificationCategoryRepository.findById(3).orElseThrow();
+		final NotificationCategories category = notificationCategoryRepository.findById(3).orElseThrow();
 
 		IntStream.range(0, 20).forEach(number -> {
-			Notification notification = new Notification();
+			Notifications notification = new Notifications();
 			notification.setId(number);
 			notification.setTitle("Notification "+number);
 			notification.setNotificationCategory(category);
@@ -55,10 +55,10 @@ class NotificationRepositoryTest {
 			notificationRepository.save(notification);
 		});
 
-		final NotificationCategory category2 = notificationCategoryRepository.findById(2).orElseThrow();
+		final NotificationCategories category2 = notificationCategoryRepository.findById(2).orElseThrow();
 
 		IntStream.range(21, 41).forEach(number -> {
-			Notification notification = new Notification();
+			Notifications notification = new Notifications();
 			notification.setId(number);
 			notification.setTitle("Notification "+number);
 			notification.setNotificationCategory(category2);
@@ -70,10 +70,10 @@ class NotificationRepositoryTest {
 			notificationRepository.save(notification);
 		});
 
-		final NotificationCategory category3 = notificationCategoryRepository.findById(4).orElseThrow();
+		final NotificationCategories category3 = notificationCategoryRepository.findById(4).orElseThrow();
 
 		IntStream.range(21, 41).forEach(number -> {
-			Notification notification = new Notification();
+			Notifications notification = new Notifications();
 			notification.setId(number);
 			notification.setTitle("Notification "+number);
 			notification.setNotificationCategory(category3);
@@ -85,10 +85,10 @@ class NotificationRepositoryTest {
 			notificationRepository.save(notification);
 		});
 
-		final NotificationCategory category4 = notificationCategoryRepository.findById(1).orElseThrow();
+		final NotificationCategories category4 = notificationCategoryRepository.findById(1).orElseThrow();
 
 		IntStream.range(42, 62).forEach(number -> {
-			Notification notification = new Notification();
+			Notifications notification = new Notifications();
 			notification.setId(number);
 			notification.setTitle("Notification "+number);
 			notification.setNotificationCategory(category4);
@@ -115,12 +115,12 @@ class NotificationRepositoryTest {
 	@Test
 	void testGetNotificationCategories() {
 
-		List<NotificationCategory> list = notificationCategoryRepository.findAll();
+		List<NotificationCategories> list = notificationCategoryRepository.findAll();
 		System.out.println(list.size());
 
 		assertThat(list).size().isEqualTo(4);
 
-		NotificationCategory notificationCategory = notificationCategoryRepository.findById(7).orElseThrow();
+		NotificationCategories notificationCategory = notificationCategoryRepository.findById(7).orElseThrow();
 		System.out.println(notificationCategory);
 	}
 
