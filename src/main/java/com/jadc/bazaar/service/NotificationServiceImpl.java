@@ -56,7 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Override
 	public Notifications findById(int id) {
-		return notificationRepository.findById(id).orElseThrow();
+		return notificationRepository.findById(id).orElse(new Notifications());
 	}
 
 	@Override
