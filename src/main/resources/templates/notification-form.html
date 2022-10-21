@@ -31,7 +31,7 @@
 
                 <div class="col-11 form-field-group">
                     <label class="form-label" data-th-text="#{form.field.publication_date}"></label>
-                    <input type="datetime-local" th:value="${publicationDate}" class="form-control" name="publicationDateTime"/>
+                    <input type="datetime-local" th:field="*{publicationDate}" class="form-control" name="publicationDateTime"/>
                 </div>
 
                 <div class="col-11 form-field-group">
