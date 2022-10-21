@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jadc.bazaar.entity.Customers;
 import com.jadc.bazaar.event.AccountEvent;
+import com.jadc.bazaar.forms.CustomerForm;
 import com.jadc.bazaar.service.CustomerService;
 
 @Controller
@@ -111,16 +112,33 @@ public class CustomerController {
 	@GetMapping(value = { "/add", "/update/{id}" })
 	public String showCustomerForm(@PathVariable(value = "id", required = false) Integer id, Model model) {
 		if (id == null) {
-			model.addAttribute("customer", new Customers());
+			model.addAttribute("customer", new CustomerForm());
 		} else {
-			model.addAttribute("customer", customerService.findById(id));
+			Customers customers = customerService.findById(id);
+			CustomerForm customerForm = new CustomerForm();
+
+			customerForm.setDeleted(customers.isDeleted());
+			customerForm.setCompanyName(customers.getCompanyName());
+			customerForm.setContractedRecords(customers.getContractedRecords());
+			customerForm.setId(customers.getId());
+			customerForm.setRecordsUsed(customerForm.getRecordsUsed());
+
+			model.addAttribute("customer", customerForm);
 		}
 
 		return "customer-form";
 	}
 
 	@PostMapping("/save")
-	public String save(@ModelAttribute("customer") Customers customer) {
+	public String save(@ModelAttribute("customer") CustomerForm customerForm) {
+
+		Customers customer = new Customers();
+		customer.setDeleted(customerForm.isDeleted());
+		customer.setCompanyName(customerForm.getCompanyName());
+		customer.setId(customerForm.getId());
+		customer.setContractedRecords(customerForm.getContractedRecords());
+		customer.setRecordsUsed(customerForm.getRecordsUsed());
+
 		Customers savedCustomer = customerService.save(customer);
 		String id = Integer.toString(savedCustomer.getId());
 		AccountEvent event = new AccountEvent(this, id);
