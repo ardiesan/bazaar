@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jadc.bazaar.entity.Notifications;
 import com.jadc.bazaar.entity.NotificationCategories;
+import com.jadc.bazaar.forms.NotificationForm;
 import com.jadc.bazaar.repository.NotificationCategoryRepository;
 import com.jadc.bazaar.service.NotificationService;
 
@@ -114,20 +115,22 @@ public class NotificationController {
 	}
 
 	@GetMapping(value = { "/add", "/update/{id}" })
-	public String showNotificationForm(
-			@PathVariable(value = "id", required = false) Integer id,
-			Model model) {
+	public String showNotificationForm(@PathVariable(value = "id", required = false) Integer id, Model model) {
 
 		if (id == null) {
-			model.addAttribute("notification", new Notifications());
+			model.addAttribute("notification", new NotificationForm());
 		} else {
 			Notifications notification = notificationService.findById(id);
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			NotificationForm notificationForm = new NotificationForm();
 
-			model.addAttribute("publicationDate", notification.getPublicationDate().format(formatter));
-			model.addAttribute("notification", notification);
-			model.addAttribute("categoryId", notification.getNotificationCategory().getId());
-			model.addAttribute("categoryName", notification.getNotificationCategory().getName());
+			notificationForm.setId(notification.getId());
+			notificationForm.setNotificationCategory(notification.getNotificationCategory().getId());
+			notificationForm.setBody(notification.getBody());
+			notificationForm.setIsDeleted(notification.getIsDeleted());
+			notificationForm.setTitle(notification.getTitle());
+			notificationForm.setPublicationDate(notification.getPublicationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+			model.addAttribute("notification", notificationForm);
 		}
 
 		model.addAttribute("notificationCategories", notificationCategoryRepository.findAll());
@@ -136,19 +139,18 @@ public class NotificationController {
 	}
 
 	@PostMapping("/save")
-	public String save(
-			@ModelAttribute("notification") Notifications notification,
-			@RequestParam("publicationDateTime") String publicationDateTime,
-			@RequestParam("notificationCategory") int category,
-			RedirectAttributes attributes) {
+	public String save(@ModelAttribute("notification") NotificationForm notificationForm, RedirectAttributes attributes) {
 
-		NotificationCategories notificationCategory = notificationCategoryRepository.findById(category).orElseThrow();
+		NotificationCategories notificationCategory = notificationCategoryRepository.findById(notificationForm.getNotificationCategory()).orElseThrow();
+		Notifications notification = notificationService.findById(notificationForm.getId());
 
 		notification.setNotificationCategory(notificationCategory);
 		notification.setIsDeleted(false);
+		notification.setBody(notificationForm.getBody());
+		notification.setTitle(notificationForm.getTitle());
 
 		try {
-			notification.setPublicationDate(LocalDateTime.parse(publicationDateTime));
+			notification.setPublicationDate(LocalDateTime.parse(notificationForm.getPublicationDate()));
 			attributes.addFlashAttribute("saveSuccess", true);
 
 			notificationService.save(notification);
